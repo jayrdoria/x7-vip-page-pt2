@@ -1,0 +1,332 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: black;
+  font-family: "Roboto", sans-serif;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+
+@font-face {
+  font-family: "Arboria";
+  src: url("https://bnbstories.art/images/Arboria-Black.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.container {
+  padding: 0;
+}
+
+/* Start of Hero Container */
+
+.hero-container {
+  height: 95vh;
+  background-image: url("https://i.imgur.com/mqYGnk6.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative; /* required for absolute child positioning */
+  color: white;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+/* Button sits within the bottom 5% of .hero-container */
+.vip-button-wrapper {
+  position: absolute;
+  top: 96.5%;
+  left: 50%;
+  transform: translateX(-50%);
+  clip-path: polygon(
+    41px 0%,
+    /* top-left cut */ calc(100% - 1px) 0%,
+    /* right edge inset by 1px */ calc(100% - 1px) calc(100% - 30px),
+    /* bottom-right start */ calc(100% - 41px) 100%,
+    /* bottom-right cut */ 0% 100%,
+    0% 30px
+  );
+}
+
+.vip-button {
+  position: relative;
+  overflow: hidden;
+  width: 275px;
+  height: 65px;
+  border: none;
+  background-image: url("https://i.imgur.com/s0kDJ9n.png");
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 1px 1px 2px black;
+}
+
+/* Overlay glow layer on top of background */
+.vip-glow-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 200%;
+  background-image: url("https://i.imgur.com/k1ochMZ.png");
+  background-repeat: repeat-y;
+  background-size: 100% auto;
+  animation: glowScroll 10000ms linear infinite;
+  mix-blend-mode: screen;
+  opacity: 1;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Text stays above everything */
+.vip-text {
+  position: relative;
+  z-index: 2;
+  background-color: transparent;
+  font-size: 20.85px;
+  font-weight: bold;
+}
+
+/* Smooth continuous upward scroll */
+@keyframes glowScroll {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 100%;
+  }
+}
+
+.vip-heading {
+  font-family: "Arboria", sans-serif;
+  font-size: 80px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  z-index: 2;
+  position: relative;
+  color: white;
+  background-color: transparent;
+  padding-top: 630px;
+
+  /* Drop shadow */
+  text-shadow: 0 0 22.7px rgba(255, 0, 255, 0.65);
+}
+
+.vip-heading::after {
+  content: "X7 CASINO VIP CLUB";
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #ce09ff;
+  filter: blur(0.97px);
+  transform: translateY(3.24px); /* moved down instead of up */
+  z-index: -1;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  padding-top: 630px;
+}
+
+.vip-subtext {
+  font-size: 24px;
+  font-weight: 600; /* semibold */
+  color: white;
+  text-align: center;
+  z-index: 2;
+  position: relative;
+  background-color: transparent;
+  width: 60%;
+}
+
+@media (max-width: 1500px) {
+  .vip-heading,
+  .vip-heading::after {
+    padding-top: 580px;
+    font-size: 70px;
+  }
+  .vip-subtext {
+    width: 70%;
+  }
+}
+
+@media (max-width: 1330px) {
+  .vip-heading,
+  .vip-heading::after {
+    padding-top: 550px;
+  }
+  .vip-subtext {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 1280px) {
+  .vip-heading,
+  .vip-heading::after {
+    padding-top: 520px;
+  }
+}
+
+@media (max-width: 1024px) and (height: 1366px) {
+  .vip-heading,
+  .vip-heading::after {
+    padding-bottom: 10px;
+    padding-top: 900px;
+    font-size: 80px;
+  }
+  .vip-subtext {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 1024px) and (max-height: 600px) {
+  .vip-heading,
+  .vip-heading::after {
+    font-size: 60px;
+    padding-top: 350px;
+  }
+  .vip-subtext {
+    font-size: 20px;
+  }
+  .vip-button-wrapper {
+    top: 94%;
+  }
+}
+
+@media (max-width: 991px) {
+  .vip-heading,
+  .vip-heading::after {
+    font-size: 60px;
+  }
+}
+
+@media (max-width: 912px) and (height: 1368px) {
+  .vip-heading,
+  .vip-heading::after {
+    padding-bottom: 10px;
+    padding-top: 900px;
+    font-size: 80px;
+  }
+  .vip-subtext {
+    font-size: 24px;
+  }
+  .vip-button-wrapper {
+    top: 97%;
+  }
+}
+
+@media (max-width: 853px) {
+  .vip-heading,
+  .vip-heading::after {
+    padding-bottom: 10px;
+    padding-top: 900px;
+    font-size: 70px;
+  }
+  .vip-subtext {
+    font-size: 24px;
+    width: 80%;
+  }
+  .vip-button-wrapper {
+    top: 97%;
+  }
+}
+
+@media (max-width: 820px) and (height: 1180px) {
+  .vip-heading,
+  .vip-heading::after {
+    padding-top: 800px;
+  }
+}
+
+@media (max-width: 768px) {
+  .vip-heading,
+  .vip-heading::after {
+    font-size: 50px;
+    padding-bottom: 10px;
+    padding-top: 670px;
+  }
+  .vip-subtext {
+    width: 80%;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-container {
+    background-image: url("https://i.imgur.com/oKLQzwA.png");
+  }
+  .vip-heading,
+  .vip-heading::after {
+    font-size: 30px;
+    padding-top: 550px;
+  }
+  .vip-subtext {
+    font-size: 16px;
+    text-align: justify;
+    line-height: 1.5;
+  }
+  .vip-button-wrapper {
+    top: 95.5%;
+  }
+}
+
+@media (max-width: 540px) and (height: 720px) {
+  .vip-heading,
+  .vip-heading::after {
+    font-size: 30px;
+    padding-top: 460px;
+  }
+}
+
+@media (max-width: 430px) {
+  .vip-heading,
+  .vip-heading::after {
+    padding-top: 600px;
+  }
+}
+
+@media (max-width: 414px) {
+  .vip-heading,
+  .vip-heading::after {
+    padding-top: 580px;
+  }
+}
+
+@media (max-width: 390px) {
+  .vip-heading,
+  .vip-heading::after {
+    padding-top: 500px;
+  }
+}
+
+@media (max-width: 375px) {
+  .vip-heading,
+  .vip-heading::after {
+    padding-top: 400px;
+    padding-bottom: 5px;
+    font-size: 24px;
+  }
+  .vip-subtext {
+    font-size: 14px;
+  }
+  .vip-button-wrapper {
+    top: 95%;
+  }
+}
+
+@media (max-width: 360px) {
+  .vip-heading,
+  .vip-heading::after {
+    padding-top: 450px;
+  }
+}
+
+/* END of Hero Container */
