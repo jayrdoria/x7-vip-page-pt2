@@ -7,23 +7,54 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="container">
-      <!-- Home Banner Section -->
-      <section class="hero-container">
+    <!-- Start of Header Container Section -->
+    <section class="header-container">
+      <div class="content-wrapper">
+        <div class="header-inner">
+          <!-- Logo -->
+          <div class="header-logo"></div>
+
+          <!-- Right-side actions -->
+          <div class="header-actions">
+            <button
+              class="login-btn"
+              onclick="window.open('https://example.com/', '_blank')"
+            >
+              Login
+            </button>
+            <button
+              class="register-btn"
+              onclick="window.open('https://example.com/', '_blank')"
+            >
+              Register
+            </button>
+
+            <div class="profile-circle"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End of Header Container Section -->
+
+    <!-- Start of Hero Container Section -->
+    <section class="hero-container">
+      <div class="content-wrapper">
         <h1 class="vip-heading">X7 CASINO VIP CLUB</h1>
         <p class="vip-subtext">
           Experience the ultimate in gaming exclusivity and rewards with the X7
           Casino VIP Club! Our VIP program is designed to offer our most
           dedicated players an unparalleled gaming experience.
         </p>
-        <!-- Animated Button at Bottom -->
-        <div class="vip-button-wrapper">
-          <button class="vip-button">
-            <div class="vip-glow-layer"></div>
-            <span class="vip-text">Join VIP Now!</span>
-          </button>
-        </div>
-      </section>
-    </div>
+      </div>
+
+      <!-- Animated Button at Bottom -->
+      <div class="vip-button-wrapper">
+        <button class="vip-button">
+          <div class="vip-glow-layer"></div>
+          <span class="vip-text">Join VIP Now!</span>
+        </button>
+      </div>
+    </section>
+    <!-- End of Hero Container Section -->
   </body>
 </html>
