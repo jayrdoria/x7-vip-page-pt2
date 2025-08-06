@@ -326,14 +326,15 @@
 }
 
 @media (max-width: 1600px) {
-  .vip-heading {
-    top: 180%;
-  }
+  .vip-heading,
   .vip-subtext {
-    top: 180%;
+    top: 130%;
   }
   .vip-button-wrapper {
     top: 93%;
+  }
+  .hero-container {
+    margin-top: -30px;
   }
 }
 
