@@ -582,7 +582,7 @@ html {
 @media (max-width: 390px) {
   .vip-heading,
   .vip-heading::after {
-    font-size: 28px;
+    font-size: 26px;
   }
   .vip-heading,
   .vip-subtext {
