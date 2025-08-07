@@ -60,8 +60,254 @@
     </section>
     <!-- End of Hero Container Section -->
 
-    <!-- Start of Test Container Section -->
+    <!-- Start of VIP Tiers Container Section -->
+    <section class="vip-tiers-section">
+      <div class="content-wrapper">
+        <h2 class="vip-tiers-title">VIP Tiers</h2>
+        <div class="vip-tiers-wrapper">
+          <div class="vip-tier bronze active" data-tier="Bronze">
+            <img
+              loading="lazy"
+              src="https://i.imgur.com/NyYTxRa.gif"
+              alt="Bronze Tier Logo"
+            />
+          </div>
+          <div class="vip-tier silver" data-tier="Silver">
+            <img
+              loading="lazy"
+              src="https://i.imgur.com/uZbJwgQ.gif"
+              alt="Silver Tier Logo"
+            />
+          </div>
+          <div class="vip-tier gold" data-tier="Gold">
+            <img
+              loading="lazy"
+              src="https://i.imgur.com/6YqgHLh.gif"
+              alt="Gold Tier Logo"
+            />
+          </div>
+          <div class="vip-tier platinum" data-tier="Platinum">
+            <img
+              loading="lazy"
+              src="https://i.imgur.com/02NAc24.gif"
+              alt="Platinum Tier Logo"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <!-- End of Test Container Section -->
+    <!-- End of VIP Tiers Container Section -->
+
+    <!-- Start of Benefits Container Section -->
+    <section class="vip-benefits-section">
+      <div class="content-wrapper">
+        <h2 class="vip-benefits-title">Benefits</h2>
+
+        <!-- Bronze Benefits -->
+        <div class="benefits-grid bronze-benefits" data-tier="Bronze">
+          <div class="benefits-row">
+            <div class="benefit-box">
+              <h3>Welcome Offer</h3>
+              <p>
+                Get a special gift upon joining with low wagering requirements.
+              </p>
+            </div>
+            <div class="benefit-box">
+              <h3>VIP Tournament Access</h3>
+              <p>Gain entry to select VIP tournaments and leaderboards.</p>
+            </div>
+          </div>
+          <div class="benefits-row">
+            <div class="benefit-box">
+              <h3>Birthday Rewards</h3>
+              <p>Celebrate your birthday with a surprise treat.</p>
+            </div>
+            <div class="benefit-box">
+              <h3>Monday Cashback</h3>
+              <p>
+                Enjoy a 10% cashback every Monday, tailored for Bronze members.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Silver Benefits -->
+        <div class="benefits-grid silver-benefits" data-tier="Silver">
+          <div class="benefits-row">
+            <div class="benefit-box">
+              <h3>Welcome Offer</h3>
+              <p>
+                Get a special gift upon joining with low wagering requirements.
+              </p>
+            </div>
+            <div class="benefit-box">
+              <h3>VIP Team Access</h3>
+              <p>Start getting guidance from our general VIP team.</p>
+            </div>
+          </div>
+          <div class="benefits-row">
+            <div class="benefit-box">
+              <h3>Birthday Rewards</h3>
+              <p>Celebrate your birthday with a surprise treat.</p>
+            </div>
+            <div class="benefit-box">
+              <h3>Monday Cashback</h3>
+              <p>Start getting guidance from our general VIP team.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gold Benefits -->
+        <div class="benefits-grid gold-benefits" data-tier="Gold">
+          <div class="benefits-row">
+            <div class="benefit-box">
+              <h3>Monday Cashback</h3>
+              <p>Enjoy a 10% cashback every Monday.</p>
+            </div>
+            <div class="benefit-box">
+              <h3>Dedicated VIP Manager</h3>
+              <p>Have your own manager for support and tailored promotions.</p>
+            </div>
+          </div>
+          <div class="benefits-row">
+            <div class="benefit-box">
+              <h3>Birthday Rewards</h3>
+              <p>Celebrate your birthday with a surprise treat.</p>
+            </div>
+            <div class="benefit-box">
+              <h3>Priority Withdrawal</h3>
+              <p>
+                Instant processing and the highest cashout limits available.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Platinum Benefits -->
+        <div class="benefits-grid platinum-benefits" data-tier="Platinum">
+          <div class="benefits-row">
+            <div class="benefit-box">
+              <h3>Exclusive Early Access</h3>
+              <p>
+                Play new games before anyone else, with spin bundles included.
+              </p>
+            </div>
+            <div class="benefit-box">
+              <h3>Personal VIP Strategist</h3>
+              <p>
+                Your own VIP expert for gaming strategy, rewards, and support.
+              </p>
+            </div>
+          </div>
+          <div class="benefits-row">
+            <div class="benefit-box">
+              <h3>Monday Cashback</h3>
+              <p>Enjoy a 10% cashback every Monday.</p>
+            </div>
+            <div class="benefit-box">
+              <h3>Priority Withdrawals</h3>
+              <p>
+                Instant processing and the highest cashout limits available.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- End of Benefits Container Section -->
+    <script>
+      const tierBoxes = document.querySelectorAll(".vip-tier");
+      const benefitGrids = document.querySelectorAll(".benefits-grid");
+      const wrapper = document.querySelector(".vip-tiers-wrapper");
+
+      // ✅ Reusable function to activate a tier and show corresponding benefits
+      function setActiveTier(tierBox) {
+        // Remove all current actives
+        tierBoxes.forEach((t) => t.classList.remove("active"));
+        benefitGrids.forEach((grid) => grid.classList.remove("active"));
+
+        // Add active to the selected tier
+        tierBox.classList.add("active");
+
+        // Show corresponding benefits
+        const selectedTier = tierBox.getAttribute("data-tier");
+        const matchingGrid = document.querySelector(
+          `.benefits-grid[data-tier="${selectedTier}"]`
+        );
+        if (matchingGrid) {
+          matchingGrid.classList.add("active");
+        }
+      }
+
+      // ✅ On click: activate manually clicked tier
+      tierBoxes.forEach((tierBox) => {
+        tierBox.addEventListener("click", () => {
+          setActiveTier(tierBox);
+        });
+      });
+
+      // ✅ On scroll (mobile): auto-detect the centered tier
+      function updateActiveTierOnScroll() {
+        const containerRect = wrapper.getBoundingClientRect();
+        const centerX = containerRect.left + containerRect.width / 2;
+
+        let closestTier = null;
+        let closestDistance = Infinity;
+
+        tierBoxes.forEach((tier) => {
+          const rect = tier.getBoundingClientRect();
+          const tierCenterX = rect.left + rect.width / 2;
+          const distance = Math.abs(centerX - tierCenterX);
+
+          if (distance < closestDistance) {
+            closestDistance = distance;
+            closestTier = tier;
+          }
+        });
+
+        if (closestTier) {
+          setActiveTier(closestTier);
+        }
+      }
+
+      // ✅ Attach scroll listener for mobile view
+      if (wrapper) {
+        wrapper.addEventListener("scroll", () => {
+          window.requestAnimationFrame(updateActiveTierOnScroll);
+        });
+      }
+
+      // ✅ Initial state: Bronze active by default
+      window.addEventListener("DOMContentLoaded", () => {
+        const defaultTier = document.querySelector(
+          '.vip-tier[data-tier="Bronze"]'
+        );
+        if (defaultTier) setActiveTier(defaultTier);
+      });
+
+      // Tier VIP Spacer
+      window.addEventListener("DOMContentLoaded", () => {
+        const wrapper = document.querySelector(".vip-tiers-wrapper");
+
+        if (window.innerWidth <= 576 && wrapper) {
+          const tierWidth = 289;
+          const screenWidth = window.innerWidth;
+          const sidePadding = (screenWidth - tierWidth) / 2;
+
+          const leftSpacer = document.createElement("div");
+          leftSpacer.style.width = `${sidePadding}px`;
+          leftSpacer.style.flexShrink = "0";
+
+          const rightSpacer = document.createElement("div");
+          rightSpacer.style.width = `${sidePadding}px`;
+          rightSpacer.style.flexShrink = "0";
+
+          wrapper.prepend(leftSpacer);
+          wrapper.append(rightSpacer);
+        }
+      });
+    </script>
   </body>
 </html>

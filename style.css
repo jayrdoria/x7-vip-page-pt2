@@ -598,3 +598,230 @@ html {
 }
 
 /* END of Hero Container */
+
+/* Start of VIP Tiers Container */
+.vip-tiers-section {
+  text-align: center;
+  padding: 5% 0 2% 0;
+}
+
+.vip-tiers-title {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-size: 48px;
+  color: white;
+  margin-bottom: 40px;
+  text-shadow: 0 0 37px rgba(230, 70, 255, 0.65);
+}
+
+.vip-tiers-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+/* Tier Card */
+.vip-tier {
+  position: relative;
+  width: 289px;
+  height: 369px;
+  background-image: url("https://i.imgur.com/rvKhUjH.png");
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-image 0.3s ease;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.vip-tier:hover,
+.vip-tier.active {
+  background-image: url("https://i.imgur.com/MMyQmWK.png");
+}
+
+/* Centered GIF Logo */
+.vip-tier img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 45%;
+  width: auto;
+  object-fit: contain;
+  background-color: transparent;
+  pointer-events: none;
+}
+
+/* ✅ Mobile: Show 1 centered card per screen with horizontal swipe */
+@media (max-width: 768px) {
+  .vip-tiers-wrapper {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 0;
+    justify-content: flex-start;
+    padding: 0 12px;
+  }
+
+  .vip-tier {
+    width: 100vw;
+    max-width: 289px;
+    height: 369px;
+    margin: 0 auto;
+    scroll-snap-align: center;
+  }
+
+  /* Optional: hide scrollbar */
+  .vip-tiers-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+
+  .vip-tiers-wrapper {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+@media (max-width: 576px) {
+  .vip-tiers-wrapper {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scroll-padding: 0 12px;
+    padding: 0 12px;
+    gap: 0;
+    justify-content: flex-start;
+  }
+
+  .vip-tier {
+    width: 100vw;
+    max-width: 289px;
+    margin: 0 auto;
+    scroll-snap-align: center;
+    flex-shrink: 0;
+  }
+
+  .vip-tiers-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+
+  .vip-tiers-wrapper {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* END of VIP Tiers Container */
+
+/* Start of Benefits Container */
+.vip-benefits-section {
+  text-align: center;
+  padding: 2% 0;
+}
+
+.vip-benefits-title {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-size: 48px;
+  color: white;
+  margin-bottom: 40px;
+  text-shadow: 0 0 37px rgba(230, 70, 255, 0.65);
+}
+
+.benefits-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 60px;
+  display: none;
+}
+
+.benefits-grid.active {
+  display: flex;
+}
+
+.benefits-row {
+  display: flex;
+  flex-wrap: wrap; /* ✅ allow wrapping */
+  justify-content: center;
+  gap: 24px; /* ✅ gap between boxes */
+}
+
+.benefit-box {
+  width: 590px;
+  height: 170px;
+  background-color: #191630;
+  padding: 24px;
+  border-radius: 12px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* Optional: spacing override (if you still want manual control) */
+.benefits-row .benefit-box:first-child {
+  margin-right: 0; /* remove if using gap */
+}
+
+.benefit-box h3,
+.benefit-box p {
+  background-color: transparent;
+}
+
+.benefit-box h3 {
+  font-size: 30px;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+  height: 40px; /* fixed height */
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.benefit-box p {
+  font-size: 20px;
+  font-weight: normal;
+  margin: 0;
+  line-height: 1.4;
+  height: 60px; /* fixed height */
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 10px;
+}
+
+.benefits-grid {
+  display: none; /* hide all */
+}
+
+.benefits-grid.active {
+  display: grid; /* show only the selected one */
+}
+
+/* ✅ Responsive: Stack boxes into full width on smaller screens */
+@media (max-width: 1240px) {
+  .benefits-row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .benefit-box {
+    width: 100%;
+    max-width: 590px;
+  }
+}
+
+/* END of Benefits Container */
