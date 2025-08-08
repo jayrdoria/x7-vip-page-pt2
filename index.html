@@ -223,7 +223,149 @@
     </section>
 
     <!-- End of Benefits Container Section -->
+
+    <!-- Start of Table Container Section -->
+    <section class="table-section">
+      <div class="content-wrapper">
+        <h2 class="table-section-heading">
+          Level up your game - unlock elite rewards with our VIP Program!
+        </h2>
+        <div class="table-btn-wrapper">
+          <button class="table-btn" id="seeDetailsBtn" type="button">
+            <div class="table-btn-glow"></div>
+            <span class="table-btn-text">See Details</span>
+          </button>
+        </div>
+      </div>
+    </section>
+    <!-- Slide-up Overlay -->
+    <div class="table-overlay" id="tableOverlay" aria-hidden="true">
+      <div
+        class="table-overlay-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-label="VIP Details"
+      >
+        <button class="table-overlay-close" aria-label="Close">✖</button>
+        <img
+          class="table-overlay-img"
+          src="https://i.imgur.com/JyjsD4r.png"
+          alt="VIP Details"
+        />
+      </div>
+    </div>
+
+    <!-- End of Table Container Section -->
+    <!-- Start of Glow Background -->
+    <section class="glow-background">
+      <!-- Start of Experience Container Section -->
+      <section class="experience-section">
+        <div class="content-wrapper">
+          <h2 class="experience-heading">
+            Experience the Thrill: Live Casino in Action!
+          </h2>
+          <p class="experience-text">
+            Sync with the pulse of live gaming: X7 Casino delivers Blackjack,
+            Lightning Roulette, and more, straight from the virtual floor. Real
+            dealers. Real-time action. All systems go. Luck’s just a click away.
+          </p>
+          <div class="experience-reviews">
+            <!-- Card 1 -->
+            <article class="experience-card">
+              <img
+                class="experience-stars"
+                src="https://i.imgur.com/BdaZN5u.png"
+                alt="5 stars"
+              />
+              <p class="experience-copy">
+                We’re Italian players and really enjoy playing on X7 Casino. The
+                site is easy to use and everything works smoothly. We also like
+                the cyberpunk colors and style in the promos—it makes the casino
+                stand out without being too flashy. The bonuses are good, and
+                there’s a nice variety of games. It’s a fun place to play and
+                win.
+              </p>
+              <div class="experience-footer">
+                <img
+                  class="experience-flag"
+                  src="https://i.imgur.com/II36sKG.png"
+                  alt="Italy flag"
+                />
+                <div class="experience-meta">
+                  <div class="experience-name">Giovanni &amp; Marco</div>
+                  <div class="experience-country">Milan, Italy</div>
+                </div>
+              </div>
+            </article>
+
+            <!-- Card 2 -->
+            <article class="experience-card">
+              <img
+                class="experience-stars"
+                src="https://i.imgur.com/BdaZN5u.png"
+                alt="5 stars"
+              />
+              <p class="experience-copy">
+                The games are fresh, withdrawals are processed in 5 minutes, new
+                games every week and the RTP is very positive for me, i have
+                nothing to complain about, perhaps more free bonuses :)
+              </p>
+              <div class="experience-footer">
+                <img
+                  class="experience-flag"
+                  src="https://i.imgur.com/to0TTeK.png"
+                  alt="Malta flag"
+                />
+                <div class="experience-meta">
+                  <div class="experience-name">Sofia R.</div>
+                  <div class="experience-country">Sliema, Malta</div>
+                </div>
+              </div>
+            </article>
+
+            <!-- Card 3 -->
+            <article class="experience-card">
+              <img
+                class="experience-stars"
+                src="https://i.imgur.com/BdaZN5u.png"
+                alt="5 stars"
+              />
+              <p class="experience-copy">
+                We’re Italian players and really enjoy playing on X7 Casino. The
+                site is easy to use and everything works smoothly. We also like
+                the cyberpunk colors and style in the promos—it makes the casino
+                stand out without being too flashy. The bonuses are good, and
+                there’s a nice variety of games. It’s a fun place to play and
+                win.
+              </p>
+              <div class="experience-footer">
+                <img
+                  class="experience-flag"
+                  src="https://i.imgur.com/VuMpmxG.png"
+                  alt="Germany flag"
+                />
+                <div class="experience-meta">
+                  <div class="experience-name">Lukas &amp; Mia</div>
+                  <div class="experience-country">Berlin, Germany</div>
+                </div>
+              </div>
+            </article>
+          </div>
+          <div class="experience-dots" aria-label="Review pagination">
+            <button
+              class="experience-dot is-active"
+              aria-label="Go to card 1"
+            ></button>
+            <button class="experience-dot" aria-label="Go to card 2"></button>
+            <button class="experience-dot" aria-label="Go to card 3"></button>
+          </div>
+        </div>
+      </section>
+      <!-- End of Experience Container Section -->
+    </section>
+    <!-- End of Glow Background -->
     <script>
+      // VIP Tiers and Benefits
       const tierBoxes = document.querySelectorAll(".vip-tier");
       const benefitGrids = document.querySelectorAll(".benefits-grid");
       const wrapper = document.querySelector(".vip-tiers-wrapper");
@@ -285,12 +427,33 @@
         });
       }
 
-      // ✅ Initial state: Bronze active by default
+      // ✅ Initial state: Bronze active by default and truly centered
       window.addEventListener("DOMContentLoaded", () => {
         const defaultTier = document.querySelector(
           '.vip-tier[data-tier="Bronze"]'
         );
-        if (defaultTier) setActiveTier(defaultTier);
+        if (!defaultTier || !wrapper) return;
+
+        setActiveTier(defaultTier);
+
+        const centerNow = () => {
+          const wRect = wrapper.getBoundingClientRect();
+          const cRect = defaultTier.getBoundingClientRect();
+          const delta =
+            cRect.left + cRect.width / 2 - (wRect.left + wRect.width / 2);
+          wrapper.scrollTo({
+            left: Math.round(wrapper.scrollLeft + delta),
+            behavior: "auto",
+          });
+        };
+
+        // Center after current layout…
+        requestAnimationFrame(() => {
+          requestAnimationFrame(centerNow);
+        });
+
+        // …and re-center after images/fonts/spacers finalize
+        window.addEventListener("load", centerNow, { once: true });
       });
 
       // Tier VIP Spacer
@@ -313,6 +476,143 @@
           wrapper.prepend(leftSpacer);
           wrapper.append(rightSpacer);
         }
+      });
+
+      //Table Container
+      document.addEventListener("DOMContentLoaded", () => {
+        const openBtn = document.getElementById("seeDetailsBtn");
+        const overlay = document.getElementById("tableOverlay");
+        const closeBtn = overlay.querySelector(".table-overlay-close");
+
+        function open() {
+          overlay.classList.add("is-open");
+          document.body.classList.add("table-overlay-lock");
+        }
+        function close() {
+          overlay.classList.remove("is-open");
+          document.body.classList.remove("table-overlay-lock");
+        }
+
+        openBtn?.addEventListener("click", (e) => {
+          e.preventDefault();
+          open();
+        });
+
+        // Close via X
+        closeBtn?.addEventListener("click", (e) => {
+          e.stopPropagation();
+          close();
+        });
+
+        // Optional: click outside panel to close
+        overlay.addEventListener("click", (e) => {
+          if (e.target === overlay) close();
+        });
+
+        // Esc key
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") close();
+        });
+      });
+
+      //Experience
+      document.addEventListener("DOMContentLoaded", () => {
+        const track = document.querySelector(".experience-reviews");
+        const cards = Array.from(document.querySelectorAll(".experience-card"));
+        const dots = Array.from(document.querySelectorAll(".experience-dot"));
+
+        if (!track || cards.length === 0 || dots.length !== cards.length)
+          return;
+
+        const setActive = (i) =>
+          dots.forEach((d, idx) => d.classList.toggle("is-active", idx === i));
+
+        // Center a given card EXACTLY in the viewport center of the track
+        const centerCard = (card, behavior = "smooth") => {
+          const trackRect = track.getBoundingClientRect();
+          const cardRect = card.getBoundingClientRect();
+
+          // card's left within the scrollable content (track scroll offset + visual delta)
+          const leftInTrack = cardRect.left - trackRect.left + track.scrollLeft;
+
+          // target scrollLeft so card center == track center
+          const targetLeft =
+            leftInTrack - (track.clientWidth - cardRect.width) / 2;
+
+          // avoid scroll-snap tug-of-war during programmatic scroll
+          const prevSnap = track.style.scrollSnapType;
+          track.style.scrollSnapType = "none";
+          track.scrollTo({ left: Math.round(targetLeft), behavior });
+
+          // restore snap after the motion
+          const restoreDelay = behavior === "smooth" ? 320 : 0;
+          setTimeout(() => {
+            track.style.scrollSnapType = prevSnap || "x mandatory";
+          }, restoreDelay);
+        };
+
+        // Find the card whose CENTER is closest to the track center
+        const nearestCard = () => {
+          const trackRect = track.getBoundingClientRect();
+          const trackCenterX = trackRect.left + trackRect.width / 2;
+
+          let bestIdx = 0,
+            bestDist = Infinity;
+          for (let i = 0; i < cards.length; i++) {
+            const r = cards[i].getBoundingClientRect();
+            const cCenterX = r.left + r.width / 2;
+            const d = Math.abs(cCenterX - trackCenterX);
+            if (d < bestDist) {
+              bestDist = d;
+              bestIdx = i;
+            }
+          }
+          return { el: cards[bestIdx], idx: bestIdx };
+        };
+
+        // After scrolling stops, snap to the truly nearest center
+        const onScrollEnd = () => {
+          const { el, idx } = nearestCard();
+          centerCard(el);
+          setActive(idx);
+        };
+
+        if ("onscrollend" in track) {
+          track.addEventListener("scrollend", onScrollEnd);
+        } else {
+          let timeout;
+          track.addEventListener(
+            "scroll",
+            () => {
+              clearTimeout(timeout);
+              timeout = setTimeout(onScrollEnd, 90); // debounce
+            },
+            { passive: true }
+          );
+        }
+
+        // Dots → jump to card (centered)
+        dots.forEach((dot, i) => {
+          dot.addEventListener("click", () => {
+            centerCard(cards[i], "smooth");
+            setActive(i);
+          });
+        });
+
+        // Keep centered on viewport resize/orientation change
+        let resizeTO;
+        window.addEventListener("resize", () => {
+          clearTimeout(resizeTO);
+          resizeTO = setTimeout(() => {
+            const { el, idx } = nearestCard();
+            centerCard(el, "auto");
+            setActive(idx);
+          }, 100);
+        });
+
+        // Initial center on load (instant)
+        centerCard(cards[0], "auto");
+        setActive(0);
       });
     </script>
   </body>

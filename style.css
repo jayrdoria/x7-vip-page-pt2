@@ -685,7 +685,6 @@ html {
 /* Start of Benefits Container */
 .vip-benefits-section {
   text-align: center;
-  padding: 0 0 60px 0;
 }
 
 .vip-benefits-title {
@@ -785,12 +784,6 @@ html {
   }
 }
 
-@media (max-width: 768px) {
-  .vip-benefits-section {
-    padding: 0 0 40px 0;
-  }
-}
-
 @media (max-width: 576px) {
   .vip-benefits-title {
     font-size: 30px;
@@ -804,3 +797,444 @@ html {
 }
 
 /* END of Benefits Container */
+
+/* Start of Table Container */
+/* Table Section Styling */
+.table-section {
+  background-image: url("https://i.imgur.com/VNcjcxZ.png");
+  background-size: cover;
+  background-position: center;
+  padding: 40px 20px;
+  text-align: center;
+  color: white;
+}
+
+.table-section-heading {
+  font-family: "Roboto", sans-serif;
+  font-size: 20px;
+  font-weight: normal;
+}
+
+/* New Button Styles (copied from VIP button but renamed) */
+.table-btn-wrapper {
+  background-color: transparent;
+  margin-top: 20px;
+  clip-path: polygon(
+    41px 0%,
+    calc(100% - 1px) 0%,
+    calc(100% - 1px) calc(100% - 30px),
+    calc(100% - 41px) 100%,
+    0% 100%,
+    0% 30px
+  );
+  display: inline-block;
+}
+
+.table-section h2 {
+  background-color: transparent;
+}
+
+.table-btn {
+  position: relative;
+  overflow: hidden;
+  width: 275px;
+  height: 65px;
+  border: none;
+  background-image: url("https://i.imgur.com/s0kDJ9n.png");
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 1px 1px 2px black;
+}
+
+.table-btn-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 200%;
+  background-image: url("https://i.imgur.com/k1ochMZ.png");
+  background-repeat: repeat-y;
+  background-size: 100% auto;
+  animation: glowScroll 10000ms linear infinite;
+  mix-blend-mode: screen;
+  opacity: 1;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.table-btn-text {
+  position: relative;
+  z-index: 2;
+  background-color: transparent;
+  font-size: 20.85px;
+  font-weight: bold;
+}
+
+.table-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999999; /* very high to be safe */
+  display: none;
+  background: transparent;
+}
+.table-overlay.is-open {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* When overlay is open, blur everything except the overlay */
+body.table-overlay-lock > *:not(.table-overlay) {
+  filter: blur(8px);
+  transition: filter 0.3s ease;
+}
+
+.table-overlay-panel {
+  position: relative; /* create anchor for the close button */
+  transform: translateY(100%);
+  animation: tableSlideUp 380ms ease forwards;
+  height: 100dvh; /* your slide-up full height */
+  background: transparent;
+}
+
+.table-overlay-img {
+  display: block;
+  max-height: 100vh; /* or 100vh */
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+  background-color: transparent;
+}
+
+.table-overlay-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+
+.table-overlay-close::before,
+.table-overlay-close::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 24px; /* longer line to fill button */
+  height: 4px; /* thicker stroke */
+  background: #6f5a81;
+  border-radius: 2px; /* round ends for cleaner look */
+  transform-origin: center;
+}
+
+.table-overlay-close::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.table-overlay-close::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+@keyframes tableSlideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+body.table-overlay-lock {
+  overflow: hidden;
+}
+
+@media (max-width: 576px) {
+  .table-btn-text {
+    font-size: 18px;
+  }
+}
+
+/* END of Table Container */
+
+/* Glow Background */
+.glow-background {
+  background-image: url("https://i.imgur.com/FRCMQhS.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: black;
+}
+
+/* Start of Experience Container */
+.experience-section {
+  padding: 60px 0;
+  text-align: center;
+  color: white;
+}
+
+.experience-heading {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-size: 48px;
+  color: white;
+  margin-bottom: 20px;
+  text-shadow: 0 0 37px rgba(230, 70, 255, 0.65);
+}
+
+/* Description text */
+.experience-text {
+  font-family: "Roboto", sans-serif;
+  font-size: 20px;
+  font-weight: normal;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* Reviews grid under the experience text */
+/* Reviews grid under the experience text */
+.experience-reviews {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin: 32px auto 0;
+  max-width: 1440px;
+  padding: 0 24px;
+}
+
+/* Card with fixed aspect ratio (458x653) using flex column layout */
+.experience-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* top (stars) → middle (text) → bottom (footer) */
+  background-image: url("https://i.imgur.com/138R5Ll.png");
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px;
+  overflow: hidden;
+  aspect-ratio: 458 / 653;
+  width: 100%;
+  padding: 16px 20px; /* inner spacing */
+}
+
+/* Fallback if aspect-ratio unsupported */
+@supports not (aspect-ratio: 1) {
+  .experience-card::before {
+    content: "";
+    display: block;
+    padding-top: calc(653 / 458 * 100%);
+  }
+}
+
+/* Stars – top-left */
+.experience-stars {
+  align-self: flex-start; /* left align in the flex container */
+  width: 200px;
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+  background-color: transparent;
+  position: relative;
+  left: 50px;
+  top: 70px;
+}
+
+/* Body copy – centered */
+.experience-copy {
+  flex: 1; /* take remaining vertical space */
+  display: flex;
+  align-items: center; /* vertical center */
+  justify-content: center; /* horizontal center */
+  text-align: left;
+  font-family: "Roboto", sans-serif;
+  font-size: 18px;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #ffffff;
+  padding: 10px 0; /* breathing room */
+  background-color: transparent;
+  overflow: hidden;
+  position: relative;
+  left: 65px;
+  width: 70%;
+}
+
+/* Footer – bottom-left (flag + meta) */
+.experience-footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: transparent;
+  position: relative;
+  left: 60px;
+  bottom: 70px;
+}
+
+/* Circular flag 53x53 */
+.experience-flag {
+  width: 53px;
+  height: 53px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  background-color: transparent;
+}
+
+/* Name & Country – 18px bold */
+.experience-meta {
+  display: grid;
+  gap: 4px;
+  background-color: transparent;
+  text-align: left;
+}
+.experience-name,
+.experience-country {
+  font-family: "Roboto", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  background-color: transparent;
+  color: #ffffff;
+}
+
+@media (max-width: 1330px) {
+  .experience-stars {
+    left: 40px;
+    top: 50px;
+  }
+  .experience-copy {
+    left: 55px;
+  }
+  .experience-footer {
+    left: 50px;
+    bottom: 55px;
+  }
+}
+
+@media (max-width: 1280px) {
+  .experience-copy {
+    left: 40px;
+    width: 80%;
+  }
+}
+
+/* Dots (hidden on desktop) */
+.experience-dots {
+  display: none;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+.experience-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #570273; /* default */
+  opacity: 0.7;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+.experience-dot.is-active {
+  background: #c500fc; /* active */
+  opacity: 1;
+}
+
+/* ≤1279px: turn into a centered, one-card-at-a-time carousel */
+
+@media (max-width: 1279px) {
+  .experience-reviews {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: auto; /* prevents double smooth with JS */
+    gap: 0;
+    padding: 0;
+    /* Allow first and last card to center */
+    scroll-padding-left: calc((100vw - 458px) / 2);
+    scroll-padding-right: calc((100vw - 458px) / 2);
+  }
+
+  .experience-reviews::-webkit-scrollbar {
+    display: none;
+  }
+  .experience-reviews {
+    scrollbar-width: none;
+  }
+
+  .experience-card {
+    flex: 0 0 400px; /* slightly smaller width */
+    max-width: 400px;
+    margin-inline: calc((100vw - 400px) / 2); /* keep centered */
+  }
+
+  .experience-dots {
+    display: flex;
+  }
+  .experience-copy {
+    width: 70%;
+    left: 65px;
+  }
+  .experience-stars {
+    left: 55px;
+    top: 60px;
+  }
+  .experience-footer {
+    left: 55px;
+    bottom: 60px;
+  }
+}
+
+@media (max-width: 576px) {
+  .experience-heading {
+    font-size: 30px;
+  }
+  .experience-text {
+    font-size: 18px;
+  }
+  .experience-card {
+    padding: 0;
+  }
+  .experience-copy {
+    width: 65%;
+    left: 75px;
+  }
+  .experience-stars {
+    left: 65px;
+    top: 70px;
+  }
+  .experience-footer {
+    left: 70px;
+    bottom: 70px;
+  }
+}
+
+/* Responsive tweaks 
+@media (max-width: 1100px) {
+  .experience-reviews {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+  
+
+@media (max-width: 680px) {
+  .experience-reviews {
+    grid-template-columns: 1fr;
+    padding: 0 16px;
+  }
+}
+  */
+
+/* END of Experience Container */
