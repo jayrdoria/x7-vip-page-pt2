@@ -905,7 +905,7 @@ body.table-overlay-lock > *:not(.table-overlay) {
 
 .table-overlay-img {
   display: block;
-  max-height: 100vh; /* or 100vh */
+  height: 100vh; /* or 100vh */
   width: auto;
   max-width: 100%;
   object-fit: contain;
