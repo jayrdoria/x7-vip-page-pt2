@@ -934,8 +934,8 @@ body.table-overlay-lock > *:not(.table-overlay) {
 /* Close button now sits on the image’s corner */
 .table-overlay-close {
   position: absolute;
-  top: -8px; /* nudge slightly outside the image */
-  right: -8px;
+  top: 1px; /* nudge slightly outside the image */
+  right: 5px;
   width: 40px;
   height: 40px;
   border: none;
