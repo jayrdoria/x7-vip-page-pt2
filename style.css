@@ -895,17 +895,34 @@ body.table-overlay-lock > *:not(.table-overlay) {
   transition: filter 0.3s ease;
 }
 
+/* Centers the box; you already added flex on the panel */
 .table-overlay-panel {
-  position: relative; /* create anchor for the close button */
+  position: relative;
   transform: translateY(100%);
   animation: tableSlideUp 380ms ease forwards;
-  height: 100dvh; /* your slide-up full height */
+  height: 100dvh;
   background: transparent;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
 }
 
+/* New wrapper so the X follows the image */
+.table-overlay-box {
+  position: relative; /* anchor for the close button */
+  display: inline-block; /* shrink-wrap to image size */
+  max-width: 100%;
+  max-height: 80dvh; /* constrain the whole box */
+  background-color: transparent;
+}
+
+/* Your image: fit inside the 80dvh limit */
 .table-overlay-img {
   display: block;
-  height: 100vh; /* or 100vh */
+  max-height: 80dvh; /* cap height to 80% viewport */
   width: auto;
   max-width: 100%;
   object-fit: contain;
@@ -914,37 +931,48 @@ body.table-overlay-lock > *:not(.table-overlay) {
   background-color: transparent;
 }
 
+/* Close button now sits on the image’s corner */
 .table-overlay-close {
   position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 36px;
-  height: 36px;
+  top: -8px; /* nudge slightly outside the image */
+  right: -8px;
+  width: 40px;
+  height: 40px;
   border: none;
   border-radius: 50%;
-  background: transparent;
+  background: rgba(0, 0, 0, 0.4); /* subtle backdrop for visibility */
   cursor: pointer;
+  z-index: 2;
 }
 
+/* Keep your nice X lines */
 .table-overlay-close::before,
 .table-overlay-close::after {
   content: "";
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 24px; /* longer line to fill button */
-  height: 4px; /* thicker stroke */
+  width: 22px;
+  height: 3px;
   background: #6f5a81;
-  border-radius: 2px; /* round ends for cleaner look */
+  border-radius: 2px;
   transform-origin: center;
 }
-
 .table-overlay-close::before {
   transform: translate(-50%, -50%) rotate(45deg);
 }
-
 .table-overlay-close::after {
   transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* Optional: bigger tap target on small screens */
+@media (max-width: 576px) {
+  .table-overlay-close {
+    width: 44px;
+    height: 44px;
+    top: -10px;
+    right: -10px;
+  }
 }
 
 @keyframes tableSlideUp {
