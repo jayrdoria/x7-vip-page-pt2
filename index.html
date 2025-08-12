@@ -248,11 +248,202 @@
       >
         <div class="table-overlay-box">
           <button class="table-overlay-close" aria-label="Close"></button>
-          <img
-            class="table-overlay-img"
-            src="https://i.imgur.com/6CIibhd.png"
-            alt="VIP Details"
-          />
+          <div class="table-overlay-figure">
+            <img
+              class="table-overlay-img"
+              src="https://i.imgur.com/6CIibhd.png"
+              alt="VIP Details"
+            />
+            <h2 class="table-overlay-title">X7 Casino VIP Benefits</h2>
+            <!-- Tier dropdown -->
+            <div class="vip-select-wrap">
+              <button
+                class="vip-select"
+                type="button"
+                aria-haspopup="listbox"
+                aria-expanded="false"
+              >
+                <img
+                  class="vip-select-icon"
+                  src="https://i.imgur.com/tDcaWfJ.png"
+                  alt=""
+                  width="32"
+                  height="32"
+                />
+                <span class="vip-select-label">Bronze</span>
+                <svg
+                  class="vip-select-caret"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </button>
+              <ul class="vip-options" role="listbox" hidden>
+                <li
+                  class="vip-option"
+                  data-tier="Bronze"
+                  data-icon="https://i.imgur.com/tDcaWfJ.png"
+                >
+                  <img
+                    src="https://i.imgur.com/tDcaWfJ.png"
+                    alt=""
+                    width="32"
+                    height="32"
+                  /><span>Bronze</span>
+                </li>
+                <li
+                  class="vip-option"
+                  data-tier="Silver"
+                  data-icon="https://i.imgur.com/wQxdqcW.png"
+                >
+                  <img
+                    src="https://i.imgur.com/wQxdqcW.png"
+                    alt=""
+                    width="32"
+                    height="32"
+                  /><span>Silver</span>
+                </li>
+                <li
+                  class="vip-option"
+                  data-tier="Gold"
+                  data-icon="https://i.imgur.com/BIsxLuW.png"
+                >
+                  <img
+                    src="https://i.imgur.com/BIsxLuW.png"
+                    alt=""
+                    width="32"
+                    height="32"
+                  /><span>Gold</span>
+                </li>
+                <li
+                  class="vip-option"
+                  data-tier="Platinum"
+                  data-icon="https://i.imgur.com/RmSGh5O.png"
+                >
+                  <img
+                    src="https://i.imgur.com/RmSGh5O.png"
+                    alt=""
+                    width="32"
+                    height="32"
+                  /><span>Platinum</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Benefits list -->
+            <ul class="vip-benefits">
+              <li class="vip-benefit" data-key="welcome">
+                <div class="vb-text">
+                  <div class="vb-title">Welcome Offer</div>
+                  <div class="vb-desc">
+                    Receive a special gift upon joining, with lower wagering
+                    requirements and great chances of winning.
+                  </div>
+                </div>
+                <img class="vb-flag" alt="" />
+              </li>
+              <li class="vip-benefit" data-key="vip_manager">
+                <div class="vb-text">
+                  <div class="vb-title">VIP Manager</div>
+                  <div class="vb-desc">
+                    Direct access to our dedicated VIP team and personal
+                    managers
+                  </div>
+                </div>
+                <img class="vb-flag" alt="" />
+              </li>
+              <li class="vip-benefit" data-key="fast_cashouts">
+                <div class="vb-text">
+                  <div class="vb-title">Fast Cashouts</div>
+                  <div class="vb-desc">
+                    Enjoy faster withdrawal processing and higher limits upon
+                    the Manager's decision
+                  </div>
+                </div>
+                <img class="vb-flag" alt="" />
+              </li>
+              <li class="vip-benefit" data-key="special_bonuses">
+                <div class="vb-text">
+                  <div class="vb-title">Special Bonuses</div>
+                  <div class="vb-desc">
+                    Access to exclusive rewards, improved bonuses, and
+                    personalized promotions such as real cash bonuses
+                  </div>
+                </div>
+                <img class="vb-flag" alt="" />
+              </li>
+              <li class="vip-benefit" data-key="monday_cashback">
+                <div class="vb-text">
+                  <div class="vb-title">Monday Cashback</div>
+                  <div class="vb-desc">
+                    Weekly 10% Monday Cashback every Monday only for VIP
+                    players.
+                  </div>
+                </div>
+                <img class="vb-flag" alt="" />
+              </li>
+              <li class="vip-benefit" data-key="personalized_offers">
+                <div class="vb-text">
+                  <div class="vb-title">Personalized Offers</div>
+                  <div class="vb-desc">
+                    Receive daily, weekly, and monthly gifts, including physical
+                    rewards.
+                  </div>
+                </div>
+                <img class="vb-flag" alt="" />
+              </li>
+              <li class="vip-benefit" data-key="early_access">
+                <div class="vb-text">
+                  <div class="vb-title">Early Game Access</div>
+                  <div class="vb-desc">
+                    Be the first to try out new games with exclusive and super
+                    Spins
+                  </div>
+                </div>
+                <img class="vb-flag" alt="" />
+              </li>
+              <li class="vip-benefit" data-key="birthday">
+                <div class="vb-text">
+                  <div class="vb-title">Birthday Rewards</div>
+                  <div class="vb-desc">
+                    Amazing rewards to celebrate your special birthday day
+                  </div>
+                </div>
+                <img class="vb-flag" alt="" />
+              </li>
+              <li class="vip-benefit" data-key="tournaments">
+                <div class="vb-text">
+                  <div class="vb-title">VIP Tournaments/Leaderboards</div>
+                  <div class="vb-desc">
+                    Direct access to exclusive tournaments and leaderboards with
+                    fantastic cash prizes.
+                  </div>
+                </div>
+                <img class="vb-flag" alt="" />
+              </li>
+              <li class="vip-benefit" data-key="insurances">
+                <div class="vb-text">
+                  <div class="vb-title">Personalize Insurances</div>
+                  <div class="vb-desc">
+                    Receive special insurance tailored to your needs from your
+                    account manager
+                  </div>
+                </div>
+                <img class="vb-flag" alt="" />
+              </li>
+              <li class="vip-benefit" data-key="sms">
+                <div class="vb-text">
+                  <div class="vb-title">Special SMS Notifications</div>
+                  <div class="vb-desc">
+                    Get personalized notifications with exclusive offers and
+                    updates. We will guide you through.
+                  </div>
+                </div>
+                <img class="vb-flag" alt="" />
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -475,7 +666,7 @@
         }
       });
 
-      //Table Container
+      //Table Container Desktop
       document.addEventListener("DOMContentLoaded", () => {
         const openBtn = document.getElementById("seeDetailsBtn");
         const overlay = document.getElementById("tableOverlay");
@@ -510,6 +701,124 @@
         document.addEventListener("keydown", (e) => {
           if (e.key === "Escape") close();
         });
+      });
+
+      // Table Mobile
+      document.addEventListener("DOMContentLoaded", () => {
+        const figure = document.querySelector(".table-overlay-figure");
+        if (!figure) return;
+
+        const wrap = figure.querySelector(".vip-select-wrap");
+        const btn = wrap?.querySelector(".vip-select");
+        const list = wrap?.querySelector(".vip-options");
+        const icon = wrap?.querySelector(".vip-select-icon");
+        const label = wrap?.querySelector(".vip-select-label");
+        const opts = Array.from(list?.querySelectorAll(".vip-option") || []);
+
+        if (!wrap || !btn || !list || !opts.length) return;
+
+        const norm = (s) => (s || "").trim().toLowerCase();
+
+        // seed current tier on the button (prefer data-tier, then label, then first option)
+        if (!btn.dataset.tier) {
+          btn.dataset.tier = (
+            label?.textContent ||
+            opts[0].dataset.tier ||
+            ""
+          ).trim();
+        }
+
+        function setButton(tier, tierIcon) {
+          btn.dataset.tier = tier; // <-- critical for hiding
+          if (icon && tierIcon) icon.src = tierIcon;
+          if (label) label.textContent = tier;
+        }
+
+        function refreshOptionsVisibility() {
+          const current = norm(btn.dataset.tier);
+          opts.forEach((li) => {
+            const isSelected = norm(li.dataset.tier) === current;
+            li.toggleAttribute("hidden", isSelected); // hide the selected one
+            li.setAttribute("aria-selected", String(isSelected)); // styling/accessibility
+            li.setAttribute("role", "option");
+          });
+        }
+
+        function openList() {
+          refreshOptionsVisibility();
+          list.hidden = false;
+          btn.setAttribute("aria-expanded", "true");
+        }
+        function closeList() {
+          list.hidden = true;
+          btn.setAttribute("aria-expanded", "false");
+        }
+
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          list.hidden ? openList() : closeList();
+        });
+
+        // choose option
+        list.addEventListener("click", (e) => {
+          const li = e.target.closest(".vip-option");
+          if (!li) return;
+          setButton(li.dataset.tier, li.dataset.icon);
+          closeList();
+          // OPTIONAL: update flags if you wired the MATRIX
+          // updateFlags(li.dataset.tier);
+        });
+
+        // click outside to close
+        document.addEventListener("click", (e) => {
+          if (!wrap.contains(e.target)) closeList();
+        });
+
+        // initialize for first open
+        refreshOptionsVisibility();
+        // Set all benefit flags to the CHECK icon (temporary default)
+        document.querySelectorAll(".vip-benefit .vb-flag").forEach((img) => {
+          img.src = "https://i.imgur.com/cp1wgNE.png";
+          img.alt = "Included";
+        });
+      });
+
+      // Scroll Issue Table Mobile — measure AFTER overlay opens
+      document.addEventListener("DOMContentLoaded", () => {
+        const overlay = document.getElementById("tableOverlay");
+        const panel = overlay?.querySelector(".table-overlay-panel");
+        const figure = overlay?.querySelector(".table-overlay-figure");
+        const btn = figure?.querySelector(".vip-select");
+        const openBtn = document.getElementById("seeDetailsBtn");
+        if (!overlay || !panel || !figure || !btn) return;
+
+        const measure = () => {
+          if (!overlay.classList.contains("is-open")) return;
+          // wait a frame so layout has fully settled
+          requestAnimationFrame(() => {
+            const figTop = figure.getBoundingClientRect().top;
+            const btnBottom = btn.getBoundingClientRect().bottom;
+            const offset = btnBottom - figTop; // px from figure top to button bottom
+            figure.style.setProperty("--vip-select-bottom", `${offset}px`);
+          });
+        };
+
+        // measure shortly after opening (panel anim is ~380ms)
+        openBtn?.addEventListener("click", () => setTimeout(measure, 420));
+        // also when the slide-up animation ends (covers other open paths)
+        panel.addEventListener("animationend", measure);
+
+        // keep it fresh on viewport changes
+        window.addEventListener("resize", measure);
+        window.visualViewport?.addEventListener("resize", measure);
+
+        // if the dropdown button’s box changes, remeasure
+        const ro = new ResizeObserver(measure);
+        ro.observe(btn);
+
+        // if the image affects layout, remeasure on load
+        const heroImg = figure.querySelector(".table-overlay-img");
+        heroImg?.addEventListener("load", measure);
       });
 
       //Experience

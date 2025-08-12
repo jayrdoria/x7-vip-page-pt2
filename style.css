@@ -903,9 +903,32 @@ body.table-overlay-lock > *:not(.table-overlay) {
 /* Centers the box; you already added flex on the panel */
 .table-overlay-panel {
   position: relative;
+  /* keep slide-up */
   transform: translateY(100%);
   animation: tableSlideUp 380ms ease forwards;
-  height: 100dvh;
+
+  /* center reliably on desktop/tablet */
+  min-height: 100svh; /* more reliable than 100dvh */
+  width: 100%;
+  background: transparent;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+/* New wrapper so the X follows the image */
+.table-overlay-panel {
+  position: relative;
+  /* keep slide-up */
+  transform: translateY(100%);
+  animation: tableSlideUp 380ms ease forwards;
+
+  /* center reliably on desktop/tablet */
+  min-height: 100svh; /* more reliable than 100dvh */
+  width: 100%;
   background: transparent;
 
   display: flex;
@@ -918,47 +941,50 @@ body.table-overlay-lock > *:not(.table-overlay) {
 /* New wrapper so the X follows the image */
 .table-overlay-box {
   position: relative; /* anchor for the close button */
-  display: inline-block; /* shrink-wrap to image size */
-  max-width: 100%;
-  max-height: 95dvh; /* constrain the whole box */
+  display: inline-block; /* shrink-wrap to image size (desktop) */
+  max-width: 95vw; /* cap within viewport */
+  max-height: 95svh; /* cap within viewport */
   background-color: transparent;
 }
 
-/* Your image: fit inside the 80dvh limit */
+/* Your image: fit inside the viewport */
 .table-overlay-img {
   display: block;
-  max-height: 95dvh; /* cap height to 80% viewport */
   width: auto;
-  max-width: 100%;
+  height: auto;
+  max-width: 95vw;
+  max-height: calc(
+    95svh - env(safe-area-inset-top) - env(safe-area-inset-bottom)
+  );
   object-fit: contain;
   user-select: none;
   -webkit-user-drag: none;
   background-color: transparent;
 }
 
-/* Close button now sits on the image’s corner */
+/* Close button sticks to the image box corner (always follows) */
 .table-overlay-close {
   position: absolute;
-  top: 1px; /* nudge slightly outside the image */
-  right: 5px;
-  width: 40px;
-  height: 40px;
+  top: clamp(6px, 1.2vw, 12px); /* responsive inset */
+  right: clamp(6px, 1.2vw, 12px);
+  width: clamp(32px, 4.2vw, 40px); /* responsive size */
+  height: clamp(32px, 4.2vw, 40px);
   border: none;
   border-radius: 50%;
-  background: rgba(0, 0, 0, 0.4); /* subtle backdrop for visibility */
+  background: rgba(0, 0, 0, 0.4);
   cursor: pointer;
-  z-index: 2;
+  z-index: 5; /* above the image */
 }
 
-/* Keep your nice X lines */
+/* Keep your nice X lines, sized to the button */
 .table-overlay-close::before,
 .table-overlay-close::after {
   content: "";
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 22px;
-  height: 3px;
+  width: 55%; /* scales with button */
+  height: 2px;
   background: #6f5a81;
   border-radius: 2px;
   transform-origin: center;
@@ -970,14 +996,384 @@ body.table-overlay-lock > *:not(.table-overlay) {
   transform: translate(-50%, -50%) rotate(-45deg);
 }
 
-/* Optional: bigger tap target on small screens */
-@media (max-width: 576px) {
-  .table-overlay-close {
-    width: 44px;
-    height: 44px;
-    top: -10px;
-    right: -10px;
+/* hidden by default */
+.table-overlay-title {
+  display: none;
+}
+
+.vip-select,
+.vip-benefit {
+  display: none;
+}
+
+@media (max-width: 1024px) and (max-height: 1368px) {
+  /* Hide scrollbars on tablet/iPad */
+  .vip-benefits,
+  .vip-options {
+    -ms-overflow-style: none; /* IE/Edge legacy */
+    scrollbar-width: none; /* Firefox */
   }
+  .vip-benefits::-webkit-scrollbar,
+  .vip-options::-webkit-scrollbar {
+    width: 0 !important; /* WebKit/iOS */
+    height: 0 !important;
+  }
+
+  /* Prevent rubber-band overscroll showing white behind the overlay */
+  html,
+  body,
+  .table-overlay,
+  .table-overlay-panel {
+    overscroll-behavior: none;
+  }
+  .vip-benefits {
+    background-color: rgba(0, 0, 0, 0.01);
+  } /* keeps look the same */
+
+  .table-overlay-figure {
+    overflow: visible;
+  }
+  .table-overlay-box {
+    display: grid;
+    grid-template-columns: 1fr minmax(0, max-content) 1fr;
+    grid-template-rows: 5svh 1fr; /* top gap + image row */
+    min-height: 100svh;
+    background: transparent;
+    align-items: end;
+    justify-items: center;
+    padding: 0;
+  }
+
+  /* New wrapper that defines the image's box */
+  .table-overlay-figure {
+    grid-column: 2;
+    grid-row: 2;
+    position: relative;
+    display: inline-block;
+    line-height: 0; /* removes inline-img gap */
+    z-index: 1; /* base layer for image */
+    overflow: visible; /* allow dropdown to overflow above image */
+  }
+
+  /* Swap to the new PNG and keep transparency */
+  .table-overlay-figure .table-overlay-img {
+    content: url("https://i.imgur.com/5AESm5D.png"); /* new image */
+    display: block;
+    background-color: transparent;
+    width: auto !important; /* don't stretch full width */
+    max-width: 100vw; /* prevent overflow */
+    height: auto;
+    max-height: calc(100svh - 5svh - env(safe-area-inset-bottom));
+    object-fit: contain;
+    object-position: bottom center; /* keep bottom anchored */
+    margin: 0;
+    z-index: 1;
+  }
+
+  /* Title overlays INSIDE the image box and scales with it */
+  .table-overlay-figure .table-overlay-title {
+    display: block;
+    position: absolute;
+    top: 4.5%; /* distance from image top */
+    left: 11.5%; /* distance from image left */
+
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-size: 24px; /* mobile size */
+    color: #fff;
+    text-shadow: 0 0 37px rgba(230, 70, 255, 0.65);
+    line-height: 1.1;
+    margin: 0;
+    background: transparent;
+    pointer-events: none; /* clicks pass through */
+    z-index: 2; /* above image */
+  }
+
+  /* Close button aligns to image cell and sits above all */
+  .table-overlay-close {
+    grid-column: 2; /* align to image width */
+    grid-row: 2;
+    justify-self: end; /* right edge of the image */
+    align-self: start; /* top edge of the image */
+    position: relative; /* relative within the grid cell */
+    top: 15px;
+
+    width: clamp(32px, 4.2vw, 40px);
+    height: clamp(32px, 4.2vw, 40px);
+    transform: translate(4px, -4px);
+    border: none;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    z-index: 3; /* topmost */
+  }
+  .table-overlay-close::before,
+  .table-overlay-close::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: clamp(16px, 2.2vw, 22px); /* responsive X lines */
+    height: 3px;
+    background: #6f5a81;
+    border-radius: 2px;
+    transform-origin: center;
+  }
+  .table-overlay-close::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+  .table-overlay-close::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+
+  .table-overlay-panel {
+    padding: 0;
+  }
+
+  /* ---------- Dropdown (full width of image, relative to figure) ---------- */
+  .vip-select-wrap,
+  .vip-benefits {
+    display: block; /* show only in this breakpoint */
+  }
+
+  /* Centered over image, 90% width, near top */
+  .vip-select-wrap {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 6%; /* pushed closer to the top */
+    width: 90%; /* 90% of the image width */
+    max-width: 90%;
+    z-index: 30; /* above benefits */
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Button fills the 90% container — UPDATED spacing */
+  .vip-select {
+    width: 90%;
+    display: grid;
+    grid-template-columns: 40px 1fr 24px; /* icon | label | caret */
+    align-items: center;
+    justify-items: start; /* left-align grid children */
+    gap: 12px;
+    height: 48px;
+    padding: 0 5px; /* same padding as options */
+    border: 2px solid #4c1c68; /* outline color */
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(2px);
+    color: #fff;
+    cursor: pointer;
+    margin-top: 40px;
+  }
+
+  /* Bigger logo */
+  .vip-select-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+  }
+
+  /* Left-aligned label */
+  .vip-select-label {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.1;
+    text-align: left;
+    justify-self: start; /* ensure left within its cell */
+  }
+
+  /* Arrow in brand color */
+  .vip-select-caret {
+    width: 24px;
+    height: 24px;
+    justify-self: end;
+    fill: none;
+    stroke: #ff85e4;
+    stroke-width: 3;
+  }
+
+  /* Options container: full width of wrap, on top of benefits */
+  .vip-options {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: calc(100% + 8px);
+    width: 90%;
+    max-height: 45svh; /* scroll if too tall */
+    overflow: auto;
+    background: #140726; /* requested container color */
+    border: 2px solid #4c1c68;
+    list-style: none;
+    margin: 0;
+    z-index: 40; /* above benefits */
+  }
+
+  /* Option rows — mirror select exactly */
+  .vip-option {
+    display: grid;
+    grid-template-columns: 40px 1fr 24px; /* icon | label | caret spacer */
+    align-items: center;
+    justify-items: start;
+    gap: 12px;
+    height: 48px; /* same height as select */
+    padding: 0 5px; /* same padding as select */
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  /* empty spacer to match the caret column for perfect alignment */
+  .vip-option::after {
+    content: "";
+    width: 24px; /* equals .vip-select-caret width */
+    height: 1px;
+    justify-self: end;
+  }
+
+  .vip-option img {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px; /* mirrors selected icon */
+  }
+
+  .vip-option span {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: rgba(255, 255, 255, 0.3); /* 30% white */
+  }
+
+  .vip-option:hover {
+    background: rgba(255, 133, 228, 0.12);
+  }
+  .vip-option:hover span {
+    color: rgba(255, 255, 255, 0.7); /* optional brighten on hover */
+  }
+
+  /* ---------- Benefits (centered horizontally, text left + flag right) ---------- */
+  .vip-benefits {
+    position: absolute;
+    /* center without transform (important for iPad scrolling) */
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+
+    /* exactly under the button + small gap; add optional extra offset if needed */
+    top: calc(
+      var(--vip-select-bottom, 64px) + 50px + var(--vip-benefits-offset, 0px)
+    );
+
+    /* height is determined by top + bottom so it can scroll */
+    bottom: calc(5svh + env(safe-area-inset-bottom));
+
+    width: 75%;
+    max-width: 75%;
+    display: grid;
+    gap: 10px;
+    z-index: 10; /* stays below .vip-options */
+
+    overflow-y: auto; /* scroll! */
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch; /* smooth on iPad/iOS */
+    overscroll-behavior: contain;
+
+    /* make sure the last row isn't clipped by the safe area */
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+  }
+  .vip-benefit {
+    min-width: 0; /* 🔑 allow shrinking if parent is flex */
+    display: grid;
+    grid-template-columns: minmax(0, 80%) 20%; /* 80% left, 20% right */
+    gap: 12px;
+    padding: 30px 0;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    border-radius: 0;
+  }
+
+  .vb-text {
+    display: grid;
+    gap: 4px;
+    width: 100%;
+    min-width: 0; /* 🔑 enables wrapping inside grid */
+    white-space: normal;
+  }
+
+  .vb-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    padding-bottom: 20px;
+    min-width: 0; /* 🔑 ensure title can shrink */
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .vb-desc {
+    font-size: 20px;
+    line-height: 1.35;
+    color: rgba(255, 255, 255, 0.85);
+    margin-top: 10px;
+    min-width: 0; /* 🔑 ensure description can shrink */
+    white-space: normal;
+  }
+
+  .vb-flag {
+    align-self: center;
+    justify-self: center;
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+  }
+
+  /* === COLOR OVERRIDES === */
+  /* Put this at the end of your @media (max-width: 1024px) and (max-height: 1368px) block */
+
+  /* Selected/default button state */
+  .vip-select {
+    background: #200434;
+  }
+
+  /* Click / active / keyboard focus */
+  .vip-select:active,
+  .vip-select:focus-visible {
+    background: #26053d;
+    outline: none;
+    box-shadow: 0 0 0 2px #26053d66; /* subtle focus ring */
+  }
+
+  /* Dropdown container background */
+  .vip-options {
+    background: #140726;
+  }
+
+  /* Option rows */
+  .vip-option {
+    background: transparent; /* default row */
+  }
+
+  /* Hover / click state for options */
+  .vip-option:hover,
+  .vip-option:active,
+  .vip-option:focus-visible {
+    background: #26053d;
+    outline: none;
+  }
+
+  /* Selected option highlight (use either aria-selected or this class) */
+  .vip-option[aria-selected="true"],
+  .vip-option.is-selected {
+    background: #200434;
+  }
+
+  .vip-option[hidden] {
+    display: none !important;
+  }
+}
+
+@media (max-width: 912px) {
 }
 
 @keyframes tableSlideUp {
