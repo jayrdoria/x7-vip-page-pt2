@@ -1382,6 +1382,7 @@ body.table-overlay-lock > *:not(.table-overlay) {
 /* Mobile */
 @media (max-width: 576px) {
   .table-overlay-figure .table-overlay-img {
+    content: url("https://i.imgur.com/5AESm5D.png");
     width: 100%;
     height: auto;
     max-height: none;
