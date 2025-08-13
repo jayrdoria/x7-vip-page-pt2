@@ -1490,13 +1490,13 @@ body.table-overlay-lock > *:not(.table-overlay) {
 
 @media (max-width: 375px) {
   .vip-benefits {
-    bottom: calc(7svh + env(safe-area-inset-bottom));
+    bottom: calc(20svh + env(safe-area-inset-bottom));
   }
 }
 
 @media (max-width: 360px) {
   .vip-benefits {
-    bottom: calc(2svh + env(safe-area-inset-bottom));
+    bottom: calc(15svh + env(safe-area-inset-bottom));
   }
   .table-overlay-figure .table-overlay-title {
     font-size: 18px;
