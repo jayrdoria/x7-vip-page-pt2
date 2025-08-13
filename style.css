@@ -258,6 +258,7 @@ html {
   font-weight: bold;
   color: white;
   text-shadow: 1px 1px 2px black;
+  text-decoration: none;
 }
 
 /* Overlay glow layer on top of background */
@@ -807,7 +808,7 @@ html {
 /* Table Section Styling */
 .table-section {
   background-image: url("https://i.imgur.com/VNcjcxZ.png");
-  background-size: cover;
+  background-size: contain;
   background-position: center;
   padding: 40px 20px;
   text-align: center;
@@ -1004,6 +1005,12 @@ body.table-overlay-lock > *:not(.table-overlay) {
 .vip-select,
 .vip-benefit {
   display: none;
+}
+
+@media (max-width: 1330px) {
+  .table-section {
+    background-size: cover;
+  }
 }
 
 @media (max-width: 1024px) and (max-height: 1368px) and (min-height: 601px) {
@@ -1314,12 +1321,22 @@ body.table-overlay-lock > *:not(.table-overlay) {
     white-space: normal;
   }
 
+  /* Smooth flag transitions + subtle glow */
   .vb-flag {
-    align-self: center;
-    justify-self: center;
     width: 28px;
     height: 28px;
     object-fit: contain;
+    display: block;
+    margin: 0 auto;
+    transition: opacity 180ms ease,
+      transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1), filter 180ms ease;
+  }
+
+  .vb-flag--included {
+    filter: drop-shadow(0 0 8px rgba(166, 240, 123, 0.55));
+  }
+  .vb-flag--excluded {
+    filter: drop-shadow(0 0 8px rgba(255, 112, 135, 0.55));
   }
 
   /* === COLOR OVERRIDES === */
@@ -1382,18 +1399,29 @@ body.table-overlay-lock > *:not(.table-overlay) {
 /* Mobile */
 @media (max-width: 576px) {
   .table-overlay-figure .table-overlay-img {
-    content: url("https://i.imgur.com/5AESm5D.png");
+    content: url("https://i.imgur.com/j08yCkJ.png");
     width: 100%;
     height: auto;
     max-height: none;
     object-fit: contain;
     object-position: bottom center;
   }
+  .table-overlay-figure .table-overlay-title {
+    left: 12%;
+  }
+
+  .vip-select-wrap {
+    width: 96%;
+    max-width: 96%;
+  }
 
   .vip-benefits {
-    bottom: calc(40svh + env(safe-area-inset-bottom));
+    bottom: calc(30svh + env(safe-area-inset-bottom));
     width: 85%;
     max-width: 85%;
+    top: calc(
+      var(--vip-select-bottom, 64px) + 10px + var(--vip-benefits-offset, 0px)
+    );
   }
 
   /* Type scale */
@@ -1454,6 +1482,12 @@ body.table-overlay-lock > *:not(.table-overlay) {
   }
 }
 
+@media (max-width: 390px) {
+  .table-overlay-figure .table-overlay-title {
+    left: 8%;
+  }
+}
+
 @media (max-width: 375px) {
   .vip-benefits {
     bottom: calc(7svh + env(safe-area-inset-bottom));
@@ -1463,6 +1497,10 @@ body.table-overlay-lock > *:not(.table-overlay) {
 @media (max-width: 360px) {
   .vip-benefits {
     bottom: calc(2svh + env(safe-area-inset-bottom));
+  }
+  .table-overlay-figure .table-overlay-title {
+    font-size: 18px;
+    left: 9%;
   }
 }
 
@@ -1757,3 +1795,64 @@ body.table-overlay-lock {
   */
 
 /* END of Experience Container */
+
+/* Start of Hyperlane Container */
+/* Container */
+.hyperlane-section {
+  position: relative;
+  background: #000 url("https://i.imgur.com/y6a1Tr7.png") center/contain
+    no-repeat;
+  /* min-height: 100dvh; */ /* ← uncomment if you want it full screen */
+  padding: 60px 0;
+  text-align: center;
+  color: #fff;
+}
+
+/* Layout: keeps everything centered but constrained by .content-wrapper */
+.hyperlane-grid {
+  display: grid;
+  gap: 20px;
+  justify-items: center;
+  text-align: center;
+}
+
+/* Typography inside this section (scoped so it won't affect other places) */
+.hyperlane-section .experience-heading {
+  font-family: "Arboria", "Roboto", sans-serif;
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 1.1;
+  margin: 0;
+  text-shadow: 0 0 37px rgba(230, 70, 255, 0.65);
+}
+
+.hyperlane-section .experience-text {
+  font-family: "Roboto", sans-serif;
+  font-size: 20px;
+  font-weight: normal;
+  margin: 0 auto;
+  line-height: 1.5;
+  background-color: transparent;
+}
+
+.table-btn {
+  text-decoration: none;
+}
+
+@media (max-width: 1330px) {
+  .hyperlane-section {
+    background: #000 url("https://i.imgur.com/y6a1Tr7.png") center/cover
+      no-repeat;
+  }
+}
+
+@media (max-width: 576px) {
+  .hyperlane-section .experience-heading {
+    font-size: 30px;
+  }
+  .hyperlane-section .experience-text {
+    font-size: 18px;
+  }
+}
+
+/* END of Hyperlane Container */
