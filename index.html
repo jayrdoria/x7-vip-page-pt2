@@ -979,14 +979,21 @@
           list.hidden ? openList() : closeList();
         });
 
-        // choose option
+        // choose option with smooth scroll to the top
         list.addEventListener("click", (e) => {
           const li = e.target.closest(".vip-option");
           if (!li) return;
           setButton(li.dataset.tier, li.dataset.icon);
           closeList();
-          // OPTIONAL: update flags if you wired the MATRIX
-          // updateFlags(li.dataset.tier);
+
+          // Smoothly reset scroll position of benefits container
+          const benefitsContainer = document.querySelector(".vip-benefits");
+          if (benefitsContainer) {
+            benefitsContainer.scrollTo({
+              top: 0,
+              behavior: "smooth",
+            });
+          }
         });
 
         // click outside to close

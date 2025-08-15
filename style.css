@@ -1421,11 +1421,15 @@ body.table-overlay-lock > *:not(.table-overlay) {
 }
 /* Mobile */
 @media (max-width: 576px) {
+  .table-overlay-box {
+    grid-template-rows: 2svh 1fr; /* 8% top gap + image row */
+  }
+
   .table-overlay-figure .table-overlay-img {
     content: url("https://i.imgur.com/j08yCkJ.png");
     width: 100%;
     height: auto;
-    max-height: none;
+    max-height: calc(100svh - 2svh); /* ✅ no safe-area subtraction */
     object-fit: contain;
     object-position: bottom center;
   }
