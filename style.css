@@ -1712,13 +1712,16 @@ body.table-overlay-lock {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scroll-snap-type: x mandatory;
-    scroll-behavior: auto; /* prevents double smooth with JS */
+    scroll-behavior: auto;
     gap: 0;
     padding: 0;
 
-    /* ✅ FIX 1: match the real card width (400px) and use the TRACK width (100%) */
-    scroll-padding-left: calc((100% - 400px) / 2);
-    scroll-padding-right: calc((100% - 400px) / 2);
+    /* 🔧 define the exact side offset ONCE based on the track width */
+    --side: calc((100% - 400px) / 2);
+
+    /* use the same offset for scroll snapping */
+    scroll-padding-left: var(--side);
+    scroll-padding-right: var(--side);
   }
 
   .experience-reviews::-webkit-scrollbar {
@@ -1732,9 +1735,12 @@ body.table-overlay-lock {
     flex: 0 0 400px; /* fixed 400px card */
     max-width: 400px;
 
-    margin-inline: calc((100% - 400px) / 2);
+    /* ✅ use the shared offset for spacing */
+    margin-inline: var(--side);
 
-    /* reliable snap behavior */
+    /* ✅ tell Safari to snap using the SAME offset as your margins */
+    scroll-margin-inline: var(--side);
+
     scroll-snap-align: center;
     scroll-snap-stop: always;
   }
