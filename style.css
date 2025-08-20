@@ -1389,12 +1389,7 @@ body.table-overlay-lock > *:not(.table-overlay) {
     font-size: 22px;
     left: 10%;
   }
-}
 
-@media (max-width: 768px) {
-  .table-overlay-figure .table-overlay-title {
-    font-size: 20px;
-  }
   /* Title reset + wrap */
   .vb-title {
     all: unset;
@@ -1417,6 +1412,12 @@ body.table-overlay-lock > *:not(.table-overlay) {
   }
   .table-btn-text {
     font-size: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .table-overlay-figure .table-overlay-title {
+    font-size: 20px;
   }
 }
 /* Mobile */
@@ -1703,8 +1704,7 @@ body.table-overlay-lock {
   opacity: 1;
 }
 
-/* ≤1279px: turn into a centered, one-card-at-a-time carousel */
-
+/* ≤1279px: centered, one-card-at-a-time */
 @media (max-width: 1279px) {
   .experience-reviews {
     display: flex;
@@ -1715,9 +1715,10 @@ body.table-overlay-lock {
     scroll-behavior: auto; /* prevents double smooth with JS */
     gap: 0;
     padding: 0;
-    /* Allow first and last card to center */
-    scroll-padding-left: calc((100vw - 458px) / 2);
-    scroll-padding-right: calc((100vw - 458px) / 2);
+
+    /* ✅ FIX 1: match the real card width (400px) and use the TRACK width (100%) */
+    scroll-padding-left: calc((100% - 400px) / 2);
+    scroll-padding-right: calc((100% - 400px) / 2);
   }
 
   .experience-reviews::-webkit-scrollbar {
@@ -1728,9 +1729,14 @@ body.table-overlay-lock {
   }
 
   .experience-card {
-    flex: 0 0 400px; /* slightly smaller width */
+    flex: 0 0 400px; /* fixed 400px card */
     max-width: 400px;
-    margin-inline: calc((100vw - 400px) / 2); /* keep centered */
+
+    margin-inline: calc((100% - 400px) / 2);
+
+    /* reliable snap behavior */
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
   }
 
   .experience-dots {
@@ -1771,6 +1777,12 @@ body.table-overlay-lock {
   .experience-footer {
     left: 70px;
     bottom: 70px;
+  }
+}
+
+@media (max-width: 390px) {
+  .experience-card {
+    margin-inline: 12px;
   }
 }
 

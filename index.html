@@ -1130,7 +1130,7 @@
         });
       })();
 
-      //Experience
+      // Experience
       document.addEventListener("DOMContentLoaded", () => {
         const track = document.querySelector(".experience-reviews");
         const cards = Array.from(document.querySelectorAll(".experience-card"));
@@ -1151,19 +1151,25 @@
           const leftInTrack = cardRect.left - trackRect.left + track.scrollLeft;
 
           // target scrollLeft so card center == track center
-          const targetLeft =
+          let targetLeft =
             leftInTrack - (track.clientWidth - cardRect.width) / 2;
+
+          // ✅ FIX 2: clamp (prevents last-card “stuck” / overshoot on iPad)
+          const maxLeft = Math.max(0, track.scrollWidth - track.clientWidth);
+          targetLeft = Math.min(Math.max(0, Math.round(targetLeft)), maxLeft);
 
           // avoid scroll-snap tug-of-war during programmatic scroll
           const prevSnap = track.style.scrollSnapType;
           track.style.scrollSnapType = "none";
-          track.scrollTo({ left: Math.round(targetLeft), behavior });
 
-          // restore snap after the motion
-          const restoreDelay = behavior === "smooth" ? 320 : 0;
-          setTimeout(() => {
-            track.style.scrollSnapType = prevSnap || "x mandatory";
-          }, restoreDelay);
+          // ✅ rAF so we don't fight the last momentum tick on iOS
+          requestAnimationFrame(() => {
+            track.scrollTo({ left: targetLeft, behavior });
+            const restoreDelay = behavior === "smooth" ? 420 : 0;
+            setTimeout(() => {
+              track.style.scrollSnapType = prevSnap || "x mandatory";
+            }, restoreDelay);
+          });
         };
 
         // Find the card whose CENTER is closest to the track center
@@ -1182,28 +1188,37 @@
               bestIdx = i;
             }
           }
-          return { el: cards[bestIdx], idx: bestIdx };
+          return { el: cards[bestIdx], idx: bestIdx, dist: bestDist };
         };
 
-        // After scrolling stops, snap to the truly nearest center
+        // After scrolling stops, snap smoothly to the truly nearest center (if needed)
         const onScrollEnd = () => {
-          const { el, idx } = nearestCard();
-          centerCard(el);
+          const { el, idx, dist } = nearestCard();
+
+          // ✅ tiny dead‑zone to avoid micro-corrections (iPad often stops ±1–3px)
+          const DEAD_ZONE = 4; // px
+          if (dist > DEAD_ZONE) {
+            centerCard(el, "smooth"); // smooth (not instant)
+          }
           setActive(idx);
+        };
+
+        // iOS Safari: keep debounce and add end nudges
+        let timeout;
+        const debounceMs = 140;
+        const debounced = () => {
+          clearTimeout(timeout);
+          timeout = setTimeout(onScrollEnd, debounceMs);
         };
 
         if ("onscrollend" in track) {
           track.addEventListener("scrollend", onScrollEnd);
         } else {
-          let timeout;
-          track.addEventListener(
-            "scroll",
-            () => {
-              clearTimeout(timeout);
-              timeout = setTimeout(onScrollEnd, 90); // debounce
-            },
-            { passive: true }
-          );
+          track.addEventListener("scroll", debounced, { passive: true });
+          const nudge = () => setTimeout(onScrollEnd, 80);
+          window.addEventListener("touchend", nudge, { passive: true });
+          window.addEventListener("pointerup", nudge, { passive: true });
+          window.addEventListener("mouseup", nudge, { passive: true });
         }
 
         // Dots → jump to card (centered)
@@ -1226,8 +1241,12 @@
         });
 
         // Initial center on load (instant)
-        centerCard(cards[0], "auto");
-        setActive(0);
+        const init = () => {
+          centerCard(cards[0], "auto");
+          setActive(0);
+        };
+        if (document.readyState === "complete") init();
+        else window.addEventListener("load", init, { once: true });
       });
 
       // Footer accordion (≤991px) — MULTI-OPEN with smooth open/close
