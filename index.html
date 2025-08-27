@@ -1144,18 +1144,17 @@
 
         // Center a given card EXACTLY in the viewport center of the track
         const centerCard = (card, behavior = "smooth") => {
-          // keep your rect-based math so the rest of your code remains unchanged
-          const trackRect = track.getBoundingClientRect();
-          const cardRect = card.getBoundingClientRect();
+          const trackRect = track.getBoundingClientRect(); // Get the track (scroll container) rect
+          const cardRect = card.getBoundingClientRect(); // Get the specific card rect
 
-          // card's left within the scrollable content (track scroll offset + visual delta)
+          // Calculate the card's left position relative to the track
           const leftInTrack = cardRect.left - trackRect.left + track.scrollLeft;
 
-          // target scrollLeft so card center == track center
+          // Adjust this to make sure it's in the center of the viewport
           let targetLeft =
             leftInTrack - (track.clientWidth - cardRect.width) / 2;
 
-          // 🔑 compute the TRUE last-card center target (not scrollWidth - clientWidth)
+          // Ensure the target scroll doesn't go out of bounds of the available content
           const last = cards[cards.length - 1];
           const lastRect = last.getBoundingClientRect();
           const lastLeftInTrack =
@@ -1163,27 +1162,27 @@
           const lastCenterTarget =
             lastLeftInTrack - (track.clientWidth - lastRect.width) / 2;
 
-          // clamp between 0 and the true last-card center
+          // Prevent scrolling beyond the last card
           targetLeft = Math.min(
             Math.max(0, Math.round(targetLeft)),
             Math.round(lastCenterTarget)
           );
 
-          // avoid scroll-snap tug-of-war during programmatic scroll
+          // Disable scroll-snap temporarily to avoid issues with smooth scrolling
           const prevSnap = track.style.scrollSnapType;
           track.style.scrollSnapType = "none";
 
-          // rAF so we don't fight the last momentum tick on iOS
+          // Use requestAnimationFrame for smooth scrolling and proper positioning
           requestAnimationFrame(() => {
             track.scrollTo({ left: targetLeft, behavior });
             const restoreDelay = behavior === "smooth" ? 420 : 0;
             setTimeout(() => {
-              track.style.scrollSnapType = prevSnap || "x mandatory";
+              track.style.scrollSnapType = prevSnap || "x mandatory"; // Restore scroll-snap after smooth scroll
             }, restoreDelay);
           });
         };
 
-        // Find the card whose CENTER is closest to the track center
+        // Find the card whose center is closest to the center of the track
         const nearestCard = () => {
           const trackRect = track.getBoundingClientRect();
           const trackCenterX = trackRect.left + trackRect.width / 2;
@@ -1202,11 +1201,11 @@
           return { el: cards[bestIdx], idx: bestIdx, dist: bestDist };
         };
 
-        // After scrolling stops, snap smoothly to the truly nearest center (if needed)
+        // After scrolling stops, snap smoothly to the nearest center (if needed)
         const onScrollEnd = () => {
           const { el, idx, dist } = nearestCard();
 
-          // ✅ tiny dead‑zone to avoid micro-corrections (iPad often stops ±1–3px)
+          // Tiny dead-zone to avoid micro-corrections (iPad often stops ±1–3px)
           const DEAD_ZONE = 4; // px
           if (dist > DEAD_ZONE) {
             centerCard(el, "smooth"); // smooth (not instant)
@@ -1240,6 +1239,16 @@
           });
         });
 
+        // Initial center on load (instant)
+        const init = () => {
+          centerCard(cards[0], "auto"); // Center the first card immediately
+          setActive(0);
+        };
+
+        // Ensure the first card is centered on load
+        if (document.readyState === "complete") init();
+        else window.addEventListener("load", init, { once: true });
+
         // Keep centered on viewport resize/orientation change
         let resizeTO;
         window.addEventListener("resize", () => {
@@ -1250,14 +1259,6 @@
             setActive(idx);
           }, 100);
         });
-
-        // Initial center on load (instant)
-        const init = () => {
-          centerCard(cards[0], "auto");
-          setActive(0);
-        };
-        if (document.readyState === "complete") init();
-        else window.addEventListener("load", init, { once: true });
       });
 
       // Footer accordion (≤991px) — MULTI-OPEN with smooth open/close
