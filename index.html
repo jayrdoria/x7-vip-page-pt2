@@ -1144,6 +1144,7 @@
 
         // Center a given card EXACTLY in the viewport center of the track
         const centerCard = (card, behavior = "smooth") => {
+          // keep your rect-based math so the rest of your code remains unchanged
           const trackRect = track.getBoundingClientRect();
           const cardRect = card.getBoundingClientRect();
 
@@ -1154,15 +1155,25 @@
           let targetLeft =
             leftInTrack - (track.clientWidth - cardRect.width) / 2;
 
-          // ✅ FIX 2: clamp (prevents last-card “stuck” / overshoot on iPad)
-          const maxLeft = Math.max(0, track.scrollWidth - track.clientWidth);
-          targetLeft = Math.min(Math.max(0, Math.round(targetLeft)), maxLeft);
+          // 🔑 compute the TRUE last-card center target (not scrollWidth - clientWidth)
+          const last = cards[cards.length - 1];
+          const lastRect = last.getBoundingClientRect();
+          const lastLeftInTrack =
+            lastRect.left - trackRect.left + track.scrollLeft;
+          const lastCenterTarget =
+            lastLeftInTrack - (track.clientWidth - lastRect.width) / 2;
+
+          // clamp between 0 and the true last-card center
+          targetLeft = Math.min(
+            Math.max(0, Math.round(targetLeft)),
+            Math.round(lastCenterTarget)
+          );
 
           // avoid scroll-snap tug-of-war during programmatic scroll
           const prevSnap = track.style.scrollSnapType;
           track.style.scrollSnapType = "none";
 
-          // ✅ rAF so we don't fight the last momentum tick on iOS
+          // rAF so we don't fight the last momentum tick on iOS
           requestAnimationFrame(() => {
             track.scrollTo({ left: targetLeft, behavior });
             const restoreDelay = behavior === "smooth" ? 420 : 0;
