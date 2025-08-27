@@ -1135,58 +1135,17 @@
         const track = document.querySelector(".experience-reviews");
         const cards = Array.from(document.querySelectorAll(".experience-card"));
         const dots = Array.from(document.querySelectorAll(".experience-dot"));
+
         if (!track || cards.length === 0 || dots.length !== cards.length)
           return;
 
         const setActive = (i) =>
           dots.forEach((d, idx) => d.classList.toggle("is-active", idx === i));
 
-        // --- math helpers (layout-based: stable on iOS)
-        const cardCenterX = (el) => el.offsetLeft + el.offsetWidth / 2;
-        const trackCenterX = () => track.scrollLeft + track.clientWidth / 2;
-
-        const nearestCard = () => {
-          const cx = trackCenterX();
-          let bestIdx = 0,
-            bestDist = Infinity;
-          for (let i = 0; i < cards.length; i++) {
-            const d = Math.abs(cardCenterX(cards[i]) - cx);
-            if (d < bestDist) {
-              bestDist = d;
-              bestIdx = i;
-            }
-          }
-          return { el: cards[bestIdx], idx: bestIdx, dist: bestDist };
-        };
-
-        const getLastCenterLeft = () => {
-          const last = cards[cards.length - 1];
-          return Math.max(
-            0,
-            Math.round(cardCenterX(last) - track.clientWidth / 2)
-          );
-        };
-
-        const scrollToLeft = (left, behavior = "auto") => {
-          // temporarily disable snapping only for the programmatic scroll
-          const prevSnap = track.style.scrollSnapType;
-          track.style.scrollSnapType = "none";
-          isProgrammatic = true;
-
-          requestAnimationFrame(() => {
-            track.scrollTo({ left, behavior });
-            const restoreDelay = behavior === "smooth" ? 420 : 0;
-            setTimeout(() => {
-              track.style.scrollSnapType = prevSnap || "x mandatory";
-              isProgrammatic = false;
-            }, restoreDelay);
-          });
-        };
-
-        // Center a specific card
+        // Center a given card EXACTLY in the viewport center of the track
         const centerCard = (card, behavior = "smooth") => {
-          const trackRect = track.getBoundingClientRect();
-          const cardRect = card.getBoundingClientRect();
+          const trackRect = track.getBoundingClientRect(); // Get the track (scroll container) rect
+          const cardRect = card.getBoundingClientRect(); // Get the specific card rect
 
           // Calculate the card's left position relative to the track
           const leftInTrack = cardRect.left - trackRect.left + track.scrollLeft;
@@ -1195,7 +1154,7 @@
           let targetLeft =
             leftInTrack - (track.clientWidth - cardRect.width) / 2;
 
-          // --- iOS Fix: clamp scroll position precisely for the last card
+          // Ensure the target scroll doesn't go out of bounds of the available content
           const last = cards[cards.length - 1];
           const lastRect = last.getBoundingClientRect();
           const lastLeftInTrack =
@@ -1223,39 +1182,56 @@
           });
         };
 
-        // --- scroll end handling (no glitch)
-        const onScrollEndPrecise = () => {
-          if (isProgrammatic || isInitializing) return;
+        // Find the card whose center is closest to the center of the track
+        const nearestCard = () => {
+          const trackRect = track.getBoundingClientRect();
+          const trackCenterX = trackRect.left + trackRect.width / 2;
+
+          let bestIdx = 0,
+            bestDist = Infinity;
+          for (let i = 0; i < cards.length; i++) {
+            const r = cards[i].getBoundingClientRect();
+            const cCenterX = r.left + r.width / 2;
+            const d = Math.abs(cCenterX - trackCenterX);
+            if (d < bestDist) {
+              bestDist = d;
+              bestIdx = i;
+            }
+          }
+          return { el: cards[bestIdx], idx: bestIdx, dist: bestDist };
+        };
+
+        // After scrolling stops, snap smoothly to the nearest center (if needed)
+        const onScrollEnd = () => {
           const { el, idx, dist } = nearestCard();
-          // dead-zone to avoid micro-corrections on iPad
-          if (dist > 4) centerCard(el, "smooth");
+
+          // Tiny dead-zone to avoid micro-corrections (iPad often stops ±1–3px)
+          const DEAD_ZONE = 4; // px
+          if (dist > DEAD_ZONE) {
+            centerCard(el, "smooth"); // smooth (not instant)
+          }
           setActive(idx);
         };
 
-        // iOS-friendly debounce + momentum watcher
+        // iOS Safari: keep debounce and add end nudges
         let timeout;
-        const debounceMs = 120;
+        const debounceMs = 140;
         const debounced = () => {
-          if (isProgrammatic || isInitializing) return;
           clearTimeout(timeout);
-          timeout = setTimeout(onScrollEndPrecise, debounceMs);
+          timeout = setTimeout(onScrollEnd, debounceMs);
         };
 
         if ("onscrollend" in track) {
-          track.addEventListener("scrollend", onScrollEndPrecise);
+          track.addEventListener("scrollend", onScrollEnd);
         } else {
           track.addEventListener("scroll", debounced, { passive: true });
-          const nudge = () => {
-            if (isProgrammatic || isInitializing) return;
-            // give iOS one tick to finish momentum
-            setTimeout(onScrollEndPrecise, 80);
-          };
+          const nudge = () => setTimeout(onScrollEnd, 80);
           window.addEventListener("touchend", nudge, { passive: true });
           window.addEventListener("pointerup", nudge, { passive: true });
           window.addEventListener("mouseup", nudge, { passive: true });
         }
 
-        // Dots → jump exactly to card center
+        // Dots → jump to card (centered)
         dots.forEach((dot, i) => {
           dot.addEventListener("click", () => {
             centerCard(cards[i], "smooth");
@@ -1263,55 +1239,25 @@
           });
         });
 
-        // Keep centered on resize/orientation change
+        // Initial center on load (instant)
+        const init = () => {
+          centerCard(cards[0], "auto"); // Center the first card immediately
+          setActive(0);
+        };
+
+        // Ensure the first card is centered on load
+        if (document.readyState === "complete") init();
+        else window.addEventListener("load", init, { once: true });
+
+        // Keep centered on viewport resize/orientation change
         let resizeTO;
         window.addEventListener("resize", () => {
           clearTimeout(resizeTO);
           resizeTO = setTimeout(() => {
             const { el, idx } = nearestCard();
-            // instant re-center without visible snap fight
             centerCard(el, "auto");
             setActive(idx);
           }, 100);
-        });
-
-        // --- Initial center without “glitch”
-        const doInitialCenter = () => {
-          isInitializing = true;
-
-          // choose which card to start on: card[0] by default
-          const first = cards[0];
-          const target = Math.round(cardCenterX(first) - track.clientWidth / 2);
-          const clamped = Math.min(Math.max(0, target), getLastCenterLeft());
-
-          // perform an instant (auto) scroll with snap disabled, then restore
-          const prevSnap = track.style.scrollSnapType;
-          track.style.scrollSnapType = "none";
-
-          // double-rAF ensures layout (fonts/images) is committed before we set scrollLeft
-          requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-              track.scrollLeft = clamped;
-              // small delay lets iOS finish any residual layout before re-enabling snap
-              setTimeout(() => {
-                track.style.scrollSnapType = prevSnap || "x mandatory";
-                // set correct dot
-                const { idx } = nearestCard();
-                setActive(idx);
-                isInitializing = false;
-              }, 60);
-            });
-          });
-        };
-
-        // Wait for fonts/layout to settle to avoid the initial jump
-        const ready =
-          document.fonts && document.fonts.ready
-            ? document.fonts.ready
-            : Promise.resolve();
-        ready.then(() => {
-          if (document.readyState === "complete") doInitialCenter();
-          else window.addEventListener("load", doInitialCenter, { once: true });
         });
       });
 
