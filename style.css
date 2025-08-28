@@ -1556,7 +1556,6 @@ body.table-overlay-lock {
 }
 
 /* Reviews grid under the experience text */
-/* Reviews grid under the experience text */
 .experience-reviews {
   background-color: transparent;
   display: grid;
@@ -1704,8 +1703,67 @@ body.table-overlay-lock {
   opacity: 1;
 }
 
+/* Hide Card 4 by default (desktop) */
+.experience-card:nth-child(4) {
+  display: none;
+}
+
+/* Tablet: 2x2 equal grid with 4 cards, centered */
+@media (min-width: 769px) and (max-width: 1279px) {
+  .experience-reviews {
+    display: grid;
+    grid-template-columns: repeat(2, max-content); /* auto-size columns */
+    gap: 24px 32px; /* vertical gap, horizontal gap */
+    justify-content: center; /* center the 2 cols block */
+    padding: 0 16px;
+  }
+
+  .experience-card {
+    display: flex;
+    width: 100%;
+    max-width: 400px; /* consistent card size */
+    aspect-ratio: 458 / 653;
+    height: auto;
+    padding: 12px;
+    box-sizing: border-box;
+    margin: 0 auto; /* make sure each card is centered inside its cell */
+  }
+
+  /* Show 4th card only on tablet */
+  .experience-card:nth-child(4) {
+    display: flex;
+  }
+
+  /* Hide dots on tablet */
+  .experience-dots {
+    display: none;
+  }
+  .experience-copy {
+    width: 70%;
+    left: 65px;
+  }
+  .experience-stars {
+    left: 55px;
+    top: 60px;
+  }
+  .experience-footer {
+    left: 55px;
+    bottom: 60px;
+  }
+}
+
+/* Mobile: ensure the extra dot is hidden (we keep only 3 dots) */
+@media (max-width: 853px) {
+  .experience-reviews {
+    gap: 0;
+  }
+}
+
 /* ≤1279px: centered, one-card-at-a-time */
-@media (max-width: 1279px) {
+@media (max-width: 768px) {
+  .experience-dot:nth-child(4) {
+    display: none;
+  }
   .experience-reviews {
     display: flex;
     flex-wrap: nowrap;

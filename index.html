@@ -503,12 +503,12 @@
             <div class="experience-footer">
               <img
                 class="experience-flag"
-                src="https://i.imgur.com/II36sKG.png"
+                src="https://i.imgur.com/to0TTeK.png"
                 alt="Italy flag"
               />
               <div class="experience-meta">
-                <div class="experience-name">Giovanni &amp; Marco</div>
-                <div class="experience-country">Milan, Italy</div>
+                <div class="experience-name">Giovanni</div>
+                <div class="experience-country">Italy</div>
               </div>
             </div>
           </article>
@@ -528,12 +528,12 @@
             <div class="experience-footer">
               <img
                 class="experience-flag"
-                src="https://i.imgur.com/to0TTeK.png"
-                alt="Malta flag"
+                src="https://i.imgur.com/zlXvNyQ.png"
+                alt="Germany flag"
               />
               <div class="experience-meta">
                 <div class="experience-name">Sofia R.</div>
-                <div class="experience-country">Sliema, Malta</div>
+                <div class="experience-country">Germany</div>
               </div>
             </div>
           </article>
@@ -546,21 +546,44 @@
               alt="5 stars"
             />
             <p class="experience-copy">
-              We’re Italian players and really enjoy playing on X7 Casino. The
-              site is easy to use and everything works smoothly. We also like
-              the cyberpunk colors and style in the promos—it makes the casino
-              stand out without being too flashy. The bonuses are good, and
-              there’s a nice variety of games. It’s a fun place to play and win.
+              Hola! This isn't the first time I've played online slots, but the
+              RTP at this casino has really impressed me with great results. I’m
+              actually beating the odds and still eager to keep playing. Their
+              VIP service? Absolutely top-notch, truly exceptional!
             </p>
             <div class="experience-footer">
               <img
                 class="experience-flag"
-                src="https://i.imgur.com/VuMpmxG.png"
-                alt="Germany flag"
+                src="https://i.imgur.com/3hK1HTc.png"
+                alt="Spain flag"
               />
               <div class="experience-meta">
-                <div class="experience-name">Lukas &amp; Mia</div>
-                <div class="experience-country">Berlin, Germany</div>
+                <div class="experience-name">Mia</div>
+                <div class="experience-country">Spain</div>
+              </div>
+            </div>
+          </article>
+          <!-- Card 4 (tablet-only) -->
+          <article class="experience-card">
+            <img
+              class="experience-stars"
+              src="https://i.imgur.com/BdaZN5u.png"
+              alt="5 stars"
+            />
+            <p class="experience-copy">
+              I am very satisfied with X7 Casino. They keep their promises, and
+              break the terms for you but only when you are a VIP. I like this
+              place, finally!
+            </p>
+            <div class="experience-footer">
+              <img
+                class="experience-flag"
+                src="https://i.imgur.com/p1iVGjX.png"
+                alt="France flag"
+              />
+              <div class="experience-meta">
+                <div class="experience-name">Kelly</div>
+                <div class="experience-country">France</div>
               </div>
             </div>
           </article>
@@ -572,6 +595,8 @@
           ></button>
           <button class="experience-dot" aria-label="Go to card 2"></button>
           <button class="experience-dot" aria-label="Go to card 3"></button>
+          <!-- Add a 4th dot -->
+          <button class="experience-dot" aria-label="Go to card 4"></button>
         </div>
       </div>
     </section>
@@ -1133,8 +1158,13 @@
       // Experience
       document.addEventListener("DOMContentLoaded", () => {
         const track = document.querySelector(".experience-reviews");
-        const cards = Array.from(document.querySelectorAll(".experience-card"));
-        const dots = Array.from(document.querySelectorAll(".experience-dot"));
+        const cards = Array.from(
+          document.querySelectorAll(".experience-card")
+        ).filter((c) => c.offsetParent !== null); // only visible
+
+        const dots = Array.from(
+          document.querySelectorAll(".experience-dot")
+        ).filter((d) => d.offsetParent !== null); // only visible
 
         if (!track || cards.length === 0 || dots.length !== cards.length)
           return;
