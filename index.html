@@ -224,7 +224,7 @@
           <div class="table-overlay-figure">
             <img
               class="table-overlay-img"
-              src="https://i.imgur.com/Ls4tpqt.png"
+              src="https://i.imgur.com/rbAUrti.png"
               alt="VIP Details"
             />
             <button class="table-overlay-close" aria-label="Close"></button>
@@ -321,7 +321,7 @@
                 <div class="vb-text">
                   <div class="vb-title">Birthday Rewards</div>
                   <div class="vb-desc">
-                    Amazing rewards to celebrate your special birthday day
+                    Amazing rewards to celebrate your special birthday.
                   </div>
                 </div>
                 <img class="vb-flag" alt="" />
@@ -341,7 +341,7 @@
                   <div class="vb-title">Monday Cashback</div>
                   <div class="vb-desc">
                     Access to exclusive rewards, improved bonuses, and
-                    personalized promotions such as real cash bonuses
+                    personalized promotions such as real cash bonuses.
                   </div>
                 </div>
                 <img class="vb-flag" alt="" />
@@ -371,7 +371,7 @@
                   <div class="vb-title">VIP Manager</div>
                   <div class="vb-desc">
                     Direct access to our dedicated VIP team and personal
-                    managers
+                    managers.
                   </div>
                 </div>
                 <img class="vb-flag" alt="" />
@@ -381,7 +381,7 @@
                   <div class="vb-title">Fast Cashouts</div>
                   <div class="vb-desc">
                     Enjoy faster withdrawal processing and higher limits upon
-                    the Manager's decision
+                    the Manager's decision.
                   </div>
                 </div>
                 <img class="vb-flag" alt="" />
@@ -391,7 +391,7 @@
                   <div class="vb-title">Special Bonuses</div>
                   <div class="vb-desc">
                     Access to exclusive rewards, improved bonuses, and
-                    personalized promotions such as real cash bonuses
+                    personalized promotions such as real cash bonuses.
                   </div>
                 </div>
                 <img class="vb-flag" alt="" />
@@ -420,7 +420,7 @@
                   <div class="vb-title">Personalized Insurances</div>
                   <div class="vb-desc">
                     Receive special insurance tailored to your needs from your
-                    account manager
+                    account manager.
                   </div>
                 </div>
                 <img class="vb-flag" alt="" />
@@ -1087,172 +1087,6 @@
           }, 100);
         });
       });
-
-      // Footer accordion (≤991px) — MULTI-OPEN with smooth open/close
-      (function () {
-        const mq = window.matchMedia("(max-width: 991px)");
-        const row = document.querySelector(".footer-row-1");
-        if (!row) return;
-
-        const cols = Array.from(
-          row.querySelectorAll(".footer-col:not(.col-brand)")
-        );
-        const titles = cols.map((c) => c.querySelector(".footer-title"));
-
-        function ensurePanels() {
-          cols.forEach((col, idx) => {
-            if (col.querySelector(".acc-panel")) return;
-
-            const contentNodes = Array.from(col.children).filter(
-              (el) =>
-                el.classList.contains("footer-list") ||
-                el.classList.contains("footer-text") ||
-                el.classList.contains("responsible-logos")
-            );
-            if (!contentNodes.length) return;
-
-            const panel = document.createElement("div");
-            panel.className = "acc-panel";
-            panel.id = `footer-acc-${idx}`;
-
-            const stack = document.createElement("div");
-            stack.style.display = "flex";
-            stack.style.flexDirection = "column";
-            stack.style.gap = "8px";
-
-            contentNodes.forEach((n) => stack.appendChild(n));
-            panel.appendChild(stack);
-            col.appendChild(panel);
-
-            // a11y (optional)
-            const title = col.querySelector(".footer-title");
-            if (title) {
-              title.setAttribute("role", "button");
-              title.setAttribute("aria-controls", panel.id);
-              title.setAttribute("aria-expanded", "false");
-            }
-          });
-        }
-
-        function animateTo(panel, targetPx, setAutoAfter) {
-          if (!panel) return;
-          panel.style.height = targetPx + "px";
-          const onEnd = (e) => {
-            if (e.propertyName !== "height") return;
-            panel.removeEventListener("transitionend", onEnd);
-            if (setAutoAfter) panel.style.height = "auto";
-          };
-          panel.addEventListener("transitionend", onEnd);
-        }
-
-        function openPanel(panel) {
-          if (!panel) return;
-          panel.style.opacity = "1";
-          if (getComputedStyle(panel).height === "auto") {
-            panel.style.height = (panel.scrollHeight || 0) + "px";
-            panel.offsetHeight;
-            panel.style.height = "0px";
-            panel.offsetHeight;
-          }
-          const full = panel.firstElementChild
-            ? panel.firstElementChild.scrollHeight
-            : panel.scrollHeight;
-          requestAnimationFrame(() => animateTo(panel, full, true));
-        }
-
-        function closePanel(panel) {
-          if (!panel) return;
-          panel.style.opacity = "0";
-          const computed = getComputedStyle(panel).height;
-          if (computed === "auto") {
-            panel.style.height = (panel.scrollHeight || 0) + "px";
-            panel.offsetHeight;
-          } else if (computed === "0px") {
-            return;
-          }
-          requestAnimationFrame(() => animateTo(panel, 0, false));
-        }
-
-        // NEW: toggle THIS column only (do NOT close others)
-        function toggleCol(col) {
-          const isOpen = col.classList.contains("open");
-          const p = col.querySelector(".acc-panel");
-          if (isOpen) {
-            col.classList.remove("open");
-            closePanel(p);
-            const t = col.querySelector(".footer-title");
-            if (t) t.setAttribute("aria-expanded", "false");
-          } else {
-            col.classList.add("open");
-            openPanel(p);
-            const t = col.querySelector(".footer-title");
-            if (t) t.setAttribute("aria-expanded", "true");
-          }
-        }
-
-        function enableAccordion() {
-          ensurePanels();
-          // start collapsed (no closeAll that would affect others later)
-          cols.forEach((c) => {
-            c.classList.remove("open");
-            const p = c.querySelector(".acc-panel");
-            if (p) {
-              p.style.height = "0px";
-              p.style.opacity = "0";
-            }
-          });
-
-          titles.forEach((h) => {
-            if (!h || h.dataset.accBound) return;
-            h.addEventListener("click", () =>
-              toggleCol(h.closest(".footer-col"))
-            );
-            h.dataset.accBound = "1";
-            // keyboard a11y
-            h.addEventListener("keydown", (e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                toggleCol(h.closest(".footer-col"));
-              }
-            });
-          });
-
-          window.addEventListener("resize", onResize, { passive: true });
-        }
-
-        function disableAccordion() {
-          cols.forEach((c) => {
-            c.classList.remove("open");
-            const p = c.querySelector(".acc-panel");
-            if (p) {
-              p.style.height = "";
-              p.style.opacity = "";
-            }
-            const t = c.querySelector(".footer-title");
-            if (t) t.setAttribute("aria-expanded", "false");
-          });
-          window.removeEventListener("resize", onResize);
-        }
-
-        function onResize() {
-          // Keep any OPEN panels sized correctly during wraps/reflows
-          cols.forEach((c) => {
-            if (!c.classList.contains("open")) return;
-            const p = c.querySelector(".acc-panel");
-            if (!p) return;
-            if (getComputedStyle(p).height === "auto") return;
-            p.style.height = (p.scrollHeight || 0) + "px";
-          });
-        }
-
-        function handleChange(e) {
-          e.matches ? enableAccordion() : disableAccordion();
-        }
-        handleChange(mq);
-        mq.addEventListener
-          ? mq.addEventListener("change", handleChange)
-          : mq.addListener(handleChange);
-      })();
     </script>
   </body>
 </html>
